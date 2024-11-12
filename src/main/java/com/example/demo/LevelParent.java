@@ -9,7 +9,6 @@ import java.util.Objects;
 import com.example.demo.controller.MyObservable;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;

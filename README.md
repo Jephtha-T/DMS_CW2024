@@ -38,10 +38,14 @@ necessary.
 
 ShieldImage
 - image path fixed from shield.jpg to shield.png
+- new Image(getClass().getResource(IMAGE_NAME).toExternalForm()) replaced to new Image(Objects.requireNonNull(getClass().getResource(IMAGE_NAME)).toExternalForm()) to prevent NullPointerException
 
 Controller
 - IllegalArgumentException and  SecurityException throw removed from launchgame
 - Observer class extension removed as it is depreciated, replaced with Observer interface which notifies all listed observers if changes occur
+
+Module-Info
+- Added export statement for ovserver
 
 LevelParent
 - Observer class extension removed as it is depreciated
