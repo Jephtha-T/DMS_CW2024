@@ -16,7 +16,7 @@ interface MyObserver {
 
 public class Controller implements MyObserver {
 
-	private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.LevelTwo";
+	private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.LevelOne";
 	private final Stage stage;
 
 	public Controller(Stage stage) {

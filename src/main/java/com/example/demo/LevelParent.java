@@ -37,8 +37,11 @@ public abstract class LevelParent extends MyObservable {
 	private final List<ActiveActorDestructible> enemyUnits = new ArrayList<>();
 	private final List<ActiveActorDestructible> userProjectiles = new ArrayList<>();
 	private final List<ActiveActorDestructible> enemyProjectiles = new ArrayList<>();
-	
+	private final List<ActiveActorDestructible> items = new ArrayList<>();
+
+
 	private int currentNumberOfEnemies;
+	private ShieldImage shieldImage;
 	private final LevelView levelView;
 
 	// List of observers
@@ -57,6 +60,9 @@ public abstract class LevelParent extends MyObservable {
 		this.currentNumberOfEnemies = 0;
 		initializeTimeline();
 		friendlyUnits.add(user);
+		shieldImage = new ShieldImage(getScreenWidth() - 100, getScreenHeight() - 100); // Position it near the player
+		getRoot().getChildren().add(shieldImage); // Add it to the root
+
 	}
 
 	protected abstract void initializeFriendlyUnits();
@@ -64,6 +70,7 @@ public abstract class LevelParent extends MyObservable {
 	protected abstract void checkIfGameOver();
 
 	protected abstract void spawnEnemyUnits();
+	protected abstract void spawnItems();
 
 	protected abstract LevelView instantiateLevelView();
 
@@ -91,6 +98,7 @@ public abstract class LevelParent extends MyObservable {
 
 	private void updateScene() {
 		spawnEnemyUnits();
+		spawnItems();
 		updateActors();
 		generateEnemyFire();
 		updateNumberOfEnemies();
@@ -149,11 +157,13 @@ public abstract class LevelParent extends MyObservable {
 		}
 	}
 
+
 	private void updateActors() {
 		friendlyUnits.forEach(ActiveActorDestructible::updateActor);
 		enemyUnits.forEach(ActiveActorDestructible::updateActor);
 		userProjectiles.forEach(ActiveActorDestructible::updateActor);
 		enemyProjectiles.forEach(ActiveActorDestructible::updateActor);
+		items.forEach(ActiveActorDestructible::updateActor);
 	}
 
 	private void removeAllDestroyedActors() {
@@ -161,6 +171,7 @@ public abstract class LevelParent extends MyObservable {
 		removeDestroyedActors(enemyUnits);
 		removeDestroyedActors(userProjectiles);
 		removeDestroyedActors(enemyProjectiles);
+		removeDestroyedActors(items);
 	}
 
 	private void removeDestroyedActors(List<ActiveActorDestructible> actors) {
@@ -174,6 +185,7 @@ public abstract class LevelParent extends MyObservable {
 		handleCollisionBetweenLists(friendlyUnits, enemyUnits);
 		handleCollisionBetweenLists(userProjectiles, enemyUnits);
 		handleCollisionBetweenLists(enemyProjectiles, friendlyUnits);
+		handleCollisionBetweenLists(friendlyUnits, items);
 		handleEnemyPenetration();
 	}
 
@@ -182,13 +194,27 @@ public abstract class LevelParent extends MyObservable {
 		for (ActiveActorDestructible actor : actors2) {
 			for (ActiveActorDestructible otherActor : actors1) {
 				if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
-					actor.takeDamage();
-					otherActor.takeDamage();
+					if ((actor instanceof Item && otherActor instanceof UserPlane) ||
+							(otherActor instanceof Item && actor instanceof UserPlane)) {
+
+						Item item = (actor instanceof Item) ? (Item) actor : (Item) otherActor;
+						UserPlane userPlane = (actor instanceof UserPlane) ? (UserPlane) actor : (UserPlane) otherActor;
+
+						// Trigger the item's effect on the user plane
+						item.triggerEffect(userPlane);
+
+						// Destroy the item after triggering its effect
+						item.destroy();
+						root.getChildren().remove(item);
+					} else {
+						// Otherwise, handle normal collision logic
+						actor.takeDamage();
+						otherActor.takeDamage();
+					}
 				}
 			}
 		}
 	}
-
 	private void handleEnemyPenetration() {
 		enemyUnits.removeIf(enemy -> {
 			if (enemyHasPenetratedDefenses(enemy)) {
@@ -200,6 +226,12 @@ public abstract class LevelParent extends MyObservable {
 			}
 			return false;
 		});
+	}
+
+	protected void addItem(ActiveActorDestructible item) {
+		item.setVisible(true); // Explicitly setting visibility
+		items.add(item);
+		getRoot().getChildren().add(item);
 	}
 
 	private void updateLevelView() {
@@ -238,6 +270,10 @@ public abstract class LevelParent extends MyObservable {
 		return enemyUnits.size();
 	}
 
+	protected int getCurrentNumberOfItems() {
+		return items.size();
+	}
+
 	protected void addEnemyUnit(ActiveActorDestructible enemy) {
 		enemyUnits.add(enemy);
 		root.getChildren().add(enemy);
@@ -249,6 +285,9 @@ public abstract class LevelParent extends MyObservable {
 
 	protected double getScreenWidth() {
 		return screenWidth;
+	}
+	protected double getScreenHeight() {
+		return screenHeight;
 	}
 
 	protected boolean userIsDestroyed() {

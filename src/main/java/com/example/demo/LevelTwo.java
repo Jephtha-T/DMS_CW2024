@@ -36,6 +36,11 @@ public class LevelTwo extends LevelParent {
 	}
 
 	@Override
+	protected void spawnItems() {
+
+	}
+
+	@Override
 	protected LevelView instantiateLevelView() {
 		levelView = new LevelViewLevelTwo(getRoot(), PLAYER_INITIAL_HEALTH);
 		return levelView;
