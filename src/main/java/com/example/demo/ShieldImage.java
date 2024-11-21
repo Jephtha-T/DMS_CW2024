@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 public class ShieldImage extends ActiveActor {
 
 	private static final String IMAGE_NAME = "shield.png";
-	private static final int SHIELD_SIZE = 200;
+	private static final int SHIELD_SIZE = 100;
 	private boolean isActive;
 
 	public ShieldImage(double xPosition, double yPosition) {

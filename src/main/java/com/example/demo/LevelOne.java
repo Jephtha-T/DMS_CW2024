@@ -20,8 +20,10 @@ public class LevelOne extends LevelParent {
 		if (userIsDestroyed()) {
 			loseGame();
 		}
-		else if (userHasReachedKillTarget())
+		else if (userHasReachedKillTarget()) {
+			System.out.println(userHasReachedKillTarget());
 			goToNextLevel(NEXT_LEVEL);
+		}
 	}
 
 	@Override
@@ -60,6 +62,7 @@ public class LevelOne extends LevelParent {
 	}
 
 	private boolean userHasReachedKillTarget() {
+
 		return getUser().getNumberOfKills() >= KILLS_TO_ADVANCE;
 	}
 

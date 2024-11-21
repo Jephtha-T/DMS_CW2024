@@ -19,7 +19,7 @@ Impact VFX
 Scoreboard  
 Weapon Upgrades  
 - Items   (Items to be picked up by Userplane for power ups)
-  - ShieldItem (Invulnerability Shield for User)
+  - ShieldItem (Invulnerability Shield for User from projectiles)
 Music  
 Different Enemies  
 More Levels  
@@ -80,13 +80,14 @@ LevelParent
 - updateKillCount for loop removed, instead it only runs once per call
 - gameActive boolean flag added so that user can no longer input actions once game is lost or won
 - Items list array added and updated, destroyed & added to root accordingly
-- User & Item collision handled to trigger item effect  
+- User & Item collision handled to trigger item effect 
 
 
 UserPlane
 - incrementKillCount now accepts a count int argument to accomodate for using array lists in level parent when a enemy plane is destroyed
 - updatePosition no longer checks if moving before updating
 - Shield Methods added much like in Boss Class that activates when shield item is picked up
+- truedamage now added for when enemy penetrates defense line even when plane is shielded
 
 ActiveActor
 - getClass().getResource(IMAGE_LOCATION + imageName).toExternalForm() changed to Objects.requireNonNull(getClass().getResource(IMAGE_LOCATION + imageName)).toExternalForm()) to prevent null pointer exception
@@ -108,6 +109,7 @@ LevelViewLevelTwo
 
 LevelTwo
 - SpawnEnemyUnits() now also spawns in the shield image so that it is in root and can be called properly
+
 
 # Unexpected Problems: 
 Communicate any unexpected challenges or issues you  

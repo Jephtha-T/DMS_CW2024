@@ -4,8 +4,6 @@ package com.example.demo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-
 import com.example.demo.controller.MyObservable;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -16,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
+
 
 public abstract class LevelParent extends MyObservable {
 
@@ -41,11 +40,7 @@ public abstract class LevelParent extends MyObservable {
 
 
 	private int currentNumberOfEnemies;
-	private ShieldImage shieldImage;
 	private final LevelView levelView;
-
-	// List of observers
-	private final List<MyObserver> observers = new ArrayList<>();
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
@@ -60,8 +55,7 @@ public abstract class LevelParent extends MyObservable {
 		this.currentNumberOfEnemies = 0;
 		initializeTimeline();
 		friendlyUnits.add(user);
-		shieldImage = new ShieldImage(getScreenWidth() - 100, getScreenHeight() - 100); // Position it near the player
-		getRoot().getChildren().add(shieldImage); // Add it to the root
+		System.out.println("Kill Count Text exists: " + root.getChildren().contains(levelView.killCountText));
 
 	}
 
@@ -78,6 +72,7 @@ public abstract class LevelParent extends MyObservable {
 		initializeBackground();
 		initializeFriendlyUnits();
 		levelView.showHeartDisplay();
+		root.getChildren().add(UserPlane.shieldImage);
 		return scene;
 	}
 
@@ -87,14 +82,14 @@ public abstract class LevelParent extends MyObservable {
 	}
 
 	public void goToNextLevel(String levelName) {
-		notifyObservers(levelName);
-	}
-
-	public void notifyObservers(Object arg) {
-		for (MyObserver observer : observers) {
-			observer.update(arg);
+		if (getUser().getNumberOfKills() >= 10 && !hasChanged()) {
+			System.out.println("Moving to next level: " + levelName);
+			setChanged(); // Mark the observable as changed
+			notifyObservers(levelName); // Notify the observer (Controller)
+			timeline.stop(); // Stop the current level's timeline
 		}
 	}
+
 
 	private void updateScene() {
 		spawnEnemyUnits();
@@ -194,6 +189,18 @@ public abstract class LevelParent extends MyObservable {
 		for (ActiveActorDestructible actor : actors2) {
 			for (ActiveActorDestructible otherActor : actors1) {
 				if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
+					if (otherActor instanceof UserPlane && ((UserPlane) otherActor).isShielded()) {
+						System.out.println("Shield absorbed collision");
+						actor.destroy(); // Destroy the enemy/projectile
+						getRoot().getChildren().remove(actor);
+						continue;
+					}  else {
+						// Otherwise, handle normal collision logic
+						actor.takeDamage();
+						otherActor.takeDamage();
+						}
+					actor.takeDamage();
+					otherActor.takeDamage();
 					if ((actor instanceof Item && otherActor instanceof UserPlane) ||
 							(otherActor instanceof Item && actor instanceof UserPlane)) {
 
@@ -206,10 +213,6 @@ public abstract class LevelParent extends MyObservable {
 						// Destroy the item after triggering its effect
 						item.destroy();
 						root.getChildren().remove(item);
-					} else {
-						// Otherwise, handle normal collision logic
-						actor.takeDamage();
-						otherActor.takeDamage();
 					}
 				}
 			}
@@ -218,7 +221,7 @@ public abstract class LevelParent extends MyObservable {
 	private void handleEnemyPenetration() {
 		enemyUnits.removeIf(enemy -> {
 			if (enemyHasPenetratedDefenses(enemy)) {
-				user.takeDamage();
+				user.takeTrueDamage();
 				currentNumberOfEnemies--;
 				enemy.destroy();
 				root.getChildren().remove(enemy);
@@ -236,10 +239,14 @@ public abstract class LevelParent extends MyObservable {
 
 	private void updateLevelView() {
 		levelView.removeHearts(user.getHealth());
+
 	}
 
 	private void updateKillCount() {
+		int currentKills = user.getNumberOfKills();
 		user.incrementKillCount(currentNumberOfEnemies - enemyUnits.size());
+		levelView.updateKillCount(currentKills); // Update the UI via LevelView
+		levelView.killCountText.setVisible(true);
 	}
 
 	private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {

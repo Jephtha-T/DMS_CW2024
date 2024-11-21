@@ -16,26 +16,25 @@ public class UserPlane extends FighterPlane {
 	private boolean isShielded;
 	private int numberOfKills;
 	private int framesWithShieldActivated;
-	private final ShieldImage shieldImage;
+	public static final ShieldImage shieldImage = new ShieldImage(INITIAL_X_POSITION, INITIAL_Y_POSITION);
 
 	public UserPlane(int initialHealth) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth);
 		velocityMultiplier = 0;
 		framesWithShieldActivated = 0;
 		isShielded = false;
-		shieldImage = new ShieldImage(INITIAL_X_POSITION, INITIAL_Y_POSITION);
 	}
-	
+
 	@Override
 	public void updatePosition() {
-			double initialTranslateY = getTranslateY();
-			this.moveVertically(VERTICAL_VELOCITY * velocityMultiplier);
-			double newPosition = getLayoutY() + getTranslateY();
-			shieldImage.setLayoutY(newPosition);
-			if (newPosition < Y_UPPER_BOUND || newPosition > Y_LOWER_BOUND) {
-				this.setTranslateY(initialTranslateY);
-			}
-
+		double initialTranslateY = getTranslateY();
+		this.moveVertically(VERTICAL_VELOCITY * velocityMultiplier);
+		double newPosition = getLayoutY() + getTranslateY();
+		shieldImage.setTranslateX(getTranslateX() - 20); // Adjust X if necessary
+		shieldImage.setTranslateY(getTranslateY() - 20); // Adjust Y if necessary
+		if (newPosition < Y_UPPER_BOUND || newPosition > Y_LOWER_BOUND) {
+			this.setTranslateY(initialTranslateY);
+		}
 	}
 	
 	@Override
@@ -82,18 +81,33 @@ public class UserPlane extends FighterPlane {
 	protected void activateShield() {
 		isShielded = true;
 		System.out.println("shield on");
-		shieldImage.activateShield();  // Activates the shield image when the shield item is collected
-
+		shieldImage.activateShield();  // Activate the shield image
+		shieldImage.setTranslateX(getTranslateX() - 20); // Adjust position relative to the plane
+		shieldImage.setTranslateY(getTranslateY() - 20);
+		shieldImage.setVisible(true);
 	}
 
 	private void deactivateShield() {
 		isShielded = false;
 		framesWithShieldActivated = 0;
+		shieldImage.deactivateShield();  // Deactivate the shield image
 		System.out.println("shield off");
-		shieldImage.deactivateShield();
 	}
 
-	public ShieldImage getShieldImage() {
-		return shieldImage;
+	@Override
+	public void takeDamage() {
+		if (isShielded) {
+			System.out.println("Shield absorbed the damage!");
+			return; // Prevent health reduction
+		}
+		super.takeDamage(); // Otherwise, apply damage normally
+	}
+
+	public void takeTrueDamage() {
+		super.takeDamage(); // Otherwise, apply damage normally
+	}
+
+	public boolean isShielded() {
+		return isShielded;
 	}
 }

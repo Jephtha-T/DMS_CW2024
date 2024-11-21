@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -23,33 +24,40 @@ public class Controller implements MyObserver {
 		this.stage = stage;
 	}
 
-	public void launchGame() throws ClassNotFoundException, IllegalArgumentException, SecurityException, NoSuchMethodException,
-			InstantiationException, IllegalAccessException, InvocationTargetException  {
+	public void launchGame() throws Exception {
 
 			stage.show();
 			goToLevel(LEVEL_ONE_CLASS_NAME);
 	}
 
-	private void goToLevel(String className) throws ClassNotFoundException, IllegalArgumentException, SecurityException, NoSuchMethodException,
-			InstantiationException, IllegalAccessException, InvocationTargetException {
-			Class<?> myClass = Class.forName(className);
-			Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
-			LevelParent myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth());
-			myLevel.addObserver(this);
-			Scene scene = myLevel.initializeScene();
-			stage.setScene(scene);
-			myLevel.startGame();
+	private void goToLevel(String className) throws Exception {
+		System.out.println("Loading level: " + className);
 
+		// Dynamically load the next level
+		Class<?> myClass = Class.forName(className);
+		Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
+		LevelParent myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth());
+
+		myLevel.addObserver(this); // Add this controller as an observer
+
+		// Initialize the scene for the new level
+		Scene scene = myLevel.initializeScene();
+		stage.setScene(scene); // Set the new scene on the stage
+
+		// Start the new level
+		myLevel.startGame();
+
+		System.out.println("Level " + className + " started successfully.");
 	}
 
 	@Override
 	public void update(Object arg) {
 		try {
-			goToLevel((String) arg);
-		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
-				 | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setContentText(e.getClass().toString());
+			System.out.println("Update received for next level: " + arg); // Debugging
+			goToLevel((String) arg); // Transition to the next level
+		} catch (Exception e) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setContentText("Error loading level: " + e.getMessage());
 			alert.show();
 		}
 	}
