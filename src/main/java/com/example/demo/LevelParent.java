@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import com.example.demo.controller.MyObservable;
+import com.example.demo.controller.MyObserver;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
@@ -16,7 +17,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 
 
-public abstract class LevelParent extends MyObservable {
+public abstract class LevelParent{
+
+	private final MyObservable observable = new MyObservable();
 
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
 	private static final int MILLISECOND_DELAY = 50;
@@ -27,10 +30,11 @@ public abstract class LevelParent extends MyObservable {
 	private boolean gameActive = true;
 
 	private final Group root;
-	private final Timeline timeline;
+	private final GameLoop gameLoop;
 	private final UserPlane user;
 	private final Scene scene;
 	private final ImageView background;
+	private final CollisionManager collisionManager;
 
 	private final List<ActiveActorDestructible> friendlyUnits = new ArrayList<>();
 	private final List<ActiveActorDestructible> enemyUnits = new ArrayList<>();
@@ -41,11 +45,12 @@ public abstract class LevelParent extends MyObservable {
 
 	private int currentNumberOfEnemies;
 	private final LevelView levelView;
+	private boolean levelTransitionInProgress = false;
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight);
-		this.timeline = new Timeline();
+		this.gameLoop = new GameLoop(this::updateScene, MILLISECOND_DELAY);
 		this.user = new UserPlane(playerInitialHealth);
 		this.background = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(backgroundImageName)).toExternalForm()));
 		this.screenHeight = screenHeight;
@@ -53,10 +58,24 @@ public abstract class LevelParent extends MyObservable {
 		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
 		this.levelView = instantiateLevelView();
 		this.currentNumberOfEnemies = 0;
-		initializeTimeline();
+		this.collisionManager = new CollisionManager(root, user);
+		collisionManager.setCurrentNumberOfEnemies(currentNumberOfEnemies);
 		friendlyUnits.add(user);
 		System.out.println("Kill Count Text exists: " + root.getChildren().contains(levelView.killCountText));
 
+	}
+
+	public void addObserver(MyObserver observer) {
+		observable.addObserver(observer);
+	}
+
+	public void removeObserver(MyObserver observer) {
+		observable.removeObserver(observer);
+	}
+
+	protected void notifyObservers(Object arg) {
+		observable.setChanged();
+		observable.notifyObservers(arg);
 	}
 
 	protected abstract void initializeFriendlyUnits();
@@ -78,37 +97,55 @@ public abstract class LevelParent extends MyObservable {
 
 	public void startGame() {
 		background.requestFocus();
-		timeline.play();
-	}
-
-	public void goToNextLevel(String levelName) {
-		if (getUser().getNumberOfKills() >= 10 && !hasChanged()) {
-			System.out.println("Moving to next level: " + levelName);
-			setChanged(); // Mark the observable as changed
-			notifyObservers(levelName); // Notify the observer (Controller)
-			timeline.stop(); // Stop the current level's timeline
-		}
+		gameLoop.start(); // Correctly calls the instance method
 	}
 
 
 	private void updateScene() {
-		spawnEnemyUnits();
-		spawnItems();
-		updateActors();
-		generateEnemyFire();
-		updateNumberOfEnemies();
-		handleCollisions();
-		removeAllDestroyedActors();
-		updateKillCount();
-		updateLevelView();
+		spawnActors();
+		updateAllActors();
+
+		// Accumulate destroyed enemies
+		int enemiesDestroyed = collisionManager.handleCollisions(
+				friendlyUnits,
+				enemyUnits,
+				userProjectiles,
+				enemyProjectiles,
+				items
+		);
+
+		// Update kill count directly
+		if (enemiesDestroyed > 0) {
+			user.incrementKillCount(enemiesDestroyed);
+			System.out.println("Enemies destroyed: " + enemiesDestroyed);
+			System.out.println("Total kills: " + user.getNumberOfKills());
+		}
+
+		cleanupActors();
+		refreshUI();
 		checkIfGameOver();
 	}
 
-	private void initializeTimeline() {
-		timeline.setCycleCount(Timeline.INDEFINITE);
-		KeyFrame gameLoop = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> updateScene());
-		timeline.getKeyFrames().add(gameLoop);
+	private void spawnActors() {
+		spawnEnemyUnits();
+		spawnItems();
 	}
+
+	private void updateAllActors() {
+		updateActors();
+		generateEnemyFire();
+	}
+
+	private void cleanupActors() {
+		removeAllDestroyedActors();
+		updateNumberOfEnemies();
+	}
+
+	private void refreshUI() {
+		updateKillCount();
+		updateLevelView();
+	}
+
 
 	private void initializeBackground() {
 		background.setFitHeight(screenHeight);
@@ -176,59 +213,12 @@ public abstract class LevelParent extends MyObservable {
 		actors.removeAll(destroyedActors);
 	}
 
-	private void handleCollisions() {
-		handleCollisionBetweenLists(friendlyUnits, enemyUnits);
-		handleCollisionBetweenLists(userProjectiles, enemyUnits);
-		handleCollisionBetweenLists(enemyProjectiles, friendlyUnits);
-		handleCollisionBetweenLists(friendlyUnits, items);
-		handleEnemyPenetration();
+	protected boolean isTransitionInProgress() {
+		return levelTransitionInProgress;
 	}
 
-	private void handleCollisionBetweenLists(List<ActiveActorDestructible> actors1,
-											 List<ActiveActorDestructible> actors2) {
-		for (ActiveActorDestructible actor : actors2) {
-			for (ActiveActorDestructible otherActor : actors1) {
-				if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
-					if (otherActor instanceof UserPlane && ((UserPlane) otherActor).isShielded()) {
-						System.out.println("Shield absorbed collision");
-						actor.destroy(); // Destroy the enemy/projectile
-						getRoot().getChildren().remove(actor);
-						continue;
-					}  else {
-						// Otherwise, handle normal collision logic
-						actor.takeDamage();
-						otherActor.takeDamage();
-						}
-					actor.takeDamage();
-					otherActor.takeDamage();
-					if ((actor instanceof Item && otherActor instanceof UserPlane) ||
-							(otherActor instanceof Item && actor instanceof UserPlane)) {
-
-						Item item = (actor instanceof Item) ? (Item) actor : (Item) otherActor;
-						UserPlane userPlane = (actor instanceof UserPlane) ? (UserPlane) actor : (UserPlane) otherActor;
-
-						// Trigger the item's effect on the user plane
-						item.triggerEffect(userPlane);
-
-						// Destroy the item after triggering its effect
-						item.destroy();
-						root.getChildren().remove(item);
-					}
-				}
-			}
-		}
-	}
-	private void handleEnemyPenetration() {
-		enemyUnits.removeIf(enemy -> {
-			if (enemyHasPenetratedDefenses(enemy)) {
-				user.takeTrueDamage();
-				currentNumberOfEnemies--;
-				enemy.destroy();
-				root.getChildren().remove(enemy);
-				return true; // Remove enemy from the list
-			}
-			return false;
-		});
+	protected void startLevelTransition() {
+		levelTransitionInProgress = true;
 	}
 
 	protected void addItem(ActiveActorDestructible item) {
@@ -243,24 +233,17 @@ public abstract class LevelParent extends MyObservable {
 	}
 
 	private void updateKillCount() {
-		int currentKills = user.getNumberOfKills();
-		user.incrementKillCount(currentNumberOfEnemies - enemyUnits.size());
-		levelView.updateKillCount(currentKills); // Update the UI via LevelView
-		levelView.killCountText.setVisible(true);
-	}
-
-	private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {
-		return Math.abs(enemy.getTranslateX()) > screenWidth;
+		levelView.updateKillCount(user.getNumberOfKills()); // Only update UI
 	}
 
 	protected void winGame() {
-		timeline.stop();
+		gameLoop.stop();
 		levelView.showWinImage();
 		gameActive = false;
 	}
 
 	protected void loseGame() {
-		timeline.stop();
+		gameLoop.stop();
 		levelView.showGameOverImage();
 		gameActive = false;
 	}
@@ -305,4 +288,7 @@ public abstract class LevelParent extends MyObservable {
 		currentNumberOfEnemies = enemyUnits.size();
 	}
 
+	public void stopGame() {
+		gameLoop.stop();
+	}
 }

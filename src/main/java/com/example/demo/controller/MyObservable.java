@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-// Custom Observable class
 public class MyObservable {
 	private final List<MyObserver> observers = new ArrayList<>();
 	private boolean hasChanged = false;
@@ -17,7 +16,7 @@ public class MyObservable {
 		observers.remove(observer);
 	}
 
-	protected void setChanged() {
+	public void setChanged() {
 		hasChanged = true;
 	}
 
@@ -25,7 +24,6 @@ public class MyObservable {
 		hasChanged = false;
 	}
 
-	// Check if the state has changed
 	public boolean hasChanged() {
 		return hasChanged;
 	}
@@ -35,7 +33,7 @@ public class MyObservable {
 			for (MyObserver observer : observers) {
 				observer.update(arg);
 			}
-			clearChanged();  // Reset the changed flag after notifying
+			clearChanged();
 		}
 	}
 }

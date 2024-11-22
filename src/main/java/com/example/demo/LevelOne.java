@@ -20,9 +20,10 @@ public class LevelOne extends LevelParent {
 		if (userIsDestroyed()) {
 			loseGame();
 		}
-		else if (userHasReachedKillTarget()) {
-			System.out.println(userHasReachedKillTarget());
-			goToNextLevel(NEXT_LEVEL);
+		else if (userHasReachedKillTarget() && !isTransitionInProgress()) {
+			startLevelTransition(); // Mark the transition as started
+			System.out.println("Player met kill target, requesting transition.");
+			notifyObservers(NEXT_LEVEL); // Notify LevelManager of the next level
 		}
 	}
 

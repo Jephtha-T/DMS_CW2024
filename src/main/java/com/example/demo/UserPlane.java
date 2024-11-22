@@ -76,6 +76,7 @@ public class UserPlane extends FighterPlane {
 
 	public void incrementKillCount(int count) {
 		this.numberOfKills+= count;
+		System.out.println("Kill count updated: " + this.numberOfKills);
 	}
 
 	protected void activateShield() {
@@ -91,6 +92,7 @@ public class UserPlane extends FighterPlane {
 		isShielded = false;
 		framesWithShieldActivated = 0;
 		shieldImage.deactivateShield();  // Deactivate the shield image
+		shieldImage.setVisible(false);
 		System.out.println("shield off");
 	}
 
