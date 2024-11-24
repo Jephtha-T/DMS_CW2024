@@ -1,12 +1,9 @@
 package com.example.demo;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 public class ShieldImage extends ActiveActor {
 
-	private static final String IMAGE_NAME = "shield.png";
-	private static final int SHIELD_SIZE = 100;
+	private static final String IMAGE_NAME = Config.SHIELD_IMAGE;
+	private static final int SHIELD_SIZE = Config.SHIELD_SIZE;
 	private boolean isActive;
 
 	public ShieldImage(double xPosition, double yPosition) {
@@ -25,11 +22,6 @@ public class ShieldImage extends ActiveActor {
 	public void deactivateShield() {
 		this.setVisible(false);
 		this.isActive = false;
-	}
-
-	// Method to determine if damage should be nullified
-	public boolean isDamageNullified() {
-		return isActive;
 	}
 
 	@Override

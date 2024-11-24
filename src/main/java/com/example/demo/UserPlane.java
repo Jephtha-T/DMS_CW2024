@@ -2,16 +2,16 @@ package com.example.demo;
 
 public class UserPlane extends FighterPlane {
 
-	private static final String IMAGE_NAME = "userplane.png";
-	private static final double Y_UPPER_BOUND = -40;
-	private static final double Y_LOWER_BOUND = 600.0;
+	private static final String IMAGE_NAME = Config.USER_PLANE_IMAGE;
+	private static final double Y_UPPER_BOUND = Config.Y_UPPER_BOUND;
+	private static final double Y_LOWER_BOUND = Config.Y_LOWER_BOUND;
 	private static final double INITIAL_X_POSITION = 5.0;
 	private static final double INITIAL_Y_POSITION = 300.0;
-	private static final int IMAGE_HEIGHT = 75;
-	private static final int VERTICAL_VELOCITY = 8;
-	private static final int MAX_FRAMES_WITH_SHIELD = 100;
-	private static final int PROJECTILE_X_POSITION = 110;
-	private static final int PROJECTILE_Y_POSITION_OFFSET = 20;
+	private static final int IMAGE_HEIGHT = Config.USERPLANE_HEIGHT;
+	private static final int VERTICAL_VELOCITY = Config.USERPLANE_VERTICAL_VELOCITY;
+	private static final double PROJECTILE_X_POSITION = Config.USER_PROJECTILE_X_OFFSET;
+	private static final double PROJECTILE_Y_POSITION_OFFSET = Config.USER_PROJECTILE_Y_OFFSET;
+	private static final int MAX_FRAMES_WITH_SHIELD = Config.MAX_FRAMES_WITH_SHIELD;
 	private int velocityMultiplier;
 	private boolean isShielded;
 	private int numberOfKills;

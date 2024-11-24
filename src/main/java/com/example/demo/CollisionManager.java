@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CollisionManager {
-    private final Group root; // Root node for removing actors
-    private final UserPlane user; // Reference to the user plane
+    private final Group mRoot; // mRoot node for removing actors
+    private final UserPlane mUser; // Reference to the user plane
     private int currentNumberOfEnemies; // Reference to track enemy count
 
-    public CollisionManager(Group root, UserPlane user) {
-        this.root = root;
-        this.user = user;
+    public CollisionManager(Group mRoot, UserPlane mUser) {
+        this.mRoot = mRoot;
+        this.mUser = mUser;
     }
 
     public void setCurrentNumberOfEnemies(int currentNumberOfEnemies) {
@@ -27,7 +27,7 @@ public class CollisionManager {
             List<ActiveActorDestructible> items) {
         int totalEnemiesDestroyed = 0;
         // UserPlane collisions
-        totalEnemiesDestroyed += handleUserCollisions(friendlyUnits, enemyUnits, enemyProjectiles, items);
+        totalEnemiesDestroyed += handleUserCollisions(enemyUnits, enemyProjectiles, items);
 
         // Friendly unit collisions
         totalEnemiesDestroyed += handleFriendlyCollisions(userProjectiles, enemyUnits);
@@ -38,7 +38,6 @@ public class CollisionManager {
     }
 
     private int handleUserCollisions(
-            List<ActiveActorDestructible> friendlyUnits,
             List<ActiveActorDestructible> enemyUnits,
             List<ActiveActorDestructible> enemyProjectiles,
             List<ActiveActorDestructible> items) {
@@ -46,13 +45,13 @@ public class CollisionManager {
         int enemiesDestroyed = 0;
 
         // UserPlane vs EnemyProjectiles
-        processCollisionsWithUser(user, enemyProjectiles);
+        processCollisionsWithUser(mUser, enemyProjectiles);
 
         // UserPlane vs EnemyUnits
-        enemiesDestroyed += processCollisionsWithUser(user, enemyUnits);
+        enemiesDestroyed += processCollisionsWithUser(mUser, enemyUnits);
 
         // UserPlane vs Items
-        processItemCollisions(user, items);
+        processItemCollisions(mUser, items);
 
         return enemiesDestroyed;
     }
@@ -64,21 +63,21 @@ public class CollisionManager {
         return processCollisionsBetweenLists(userProjectiles, enemyUnits);
     }
 
-    private int processCollisionsWithUser(UserPlane user, List<ActiveActorDestructible> actors) {
+    private int processCollisionsWithUser(UserPlane mUser, List<ActiveActorDestructible> actors) {
         AtomicInteger destroyedCount = new AtomicInteger();
 
         actors.removeIf(actor -> {
-            if (actor.getBoundsInParent().intersects(user.getBoundsInParent())) {
-                if (user.isShielded()) {
+            if (actor.getBoundsInParent().intersects(mUser.getBoundsInParent())) {
+                if (mUser.isShielded()) {
                     actor.destroy();
-                    root.getChildren().remove(actor);
+                    mRoot.getChildren().remove(actor);
                     destroyedCount.incrementAndGet();
                     System.out.println("Shield absorbed collision.");
                 } else {
-                    user.takeDamage();
+                    mUser.takeDamage();
                     actor.takeDamage();
                     if (actor.isDestroyed()) {
-                        root.getChildren().remove(actor);
+                        mRoot.getChildren().remove(actor);
                         destroyedCount.incrementAndGet();
                     }
                 }
@@ -90,13 +89,13 @@ public class CollisionManager {
         return destroyedCount.get();
     }
 
-    private void processItemCollisions(UserPlane user, List<ActiveActorDestructible> items) {
+    private void processItemCollisions(UserPlane mUser, List<ActiveActorDestructible> items) {
         items.removeIf(item -> {
-            if (item.getBoundsInParent().intersects(user.getBoundsInParent())) {
+            if (item.getBoundsInParent().intersects(mUser.getBoundsInParent())) {
                 if (item instanceof Item) {
-                    ((Item) item).triggerEffect(user);
+                    ((Item) item).triggerEffect(mUser);
                     item.destroy();
-                    root.getChildren().remove(item);
+                    mRoot.getChildren().remove(item);
                     System.out.println("Item effect triggered.");
                 }
                 return true; // Remove from list
@@ -118,10 +117,10 @@ public class CollisionManager {
                     actor2.takeDamage();
 
                     if (actor1.isDestroyed()) {
-                        root.getChildren().remove(actor1);
+                        mRoot.getChildren().remove(actor1);
                     }
                     if (actor2.isDestroyed()) {
-                        root.getChildren().remove(actor2);
+                        mRoot.getChildren().remove(actor2);
                         destroyedCount.incrementAndGet();
                         return true; // Remove actor2
                     }
@@ -137,10 +136,11 @@ public class CollisionManager {
         AtomicInteger enemiesDestroyed = new AtomicInteger();
         enemyUnits.removeIf(enemy -> {
             if (enemyHasPenetratedDefenses(enemy)) {
-                user.takeTrueDamage();
+                mUser.takeTrueDamage();
                 currentNumberOfEnemies--;
+                System.out.println("Enemy Penetrated Defense");
                 enemy.destroy();
-                root.getChildren().remove(enemy);
+                mRoot.getChildren().remove(enemy);
                 enemiesDestroyed.getAndIncrement();
                 return true;
             }
@@ -150,7 +150,7 @@ public class CollisionManager {
     }
 
     private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {
-        // Logic to determine if the enemy has penetrated defenses
-        return enemy.getTranslateY() > user.getLayoutY() + 50; // Example threshold
+        double enemyX = enemy.getTranslateX() + enemy.getLayoutX();
+        return enemyX <= 0; //Has crossed left side of screen
     }
 }

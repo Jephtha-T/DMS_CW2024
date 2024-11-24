@@ -1,9 +1,9 @@
 package com.example.demo;
 
 public class ShieldItem extends Item {
-    private static final String SHIELD_ITEM_NAME = "shield.png"; // Image for ShieldItem
-    private static final int IMAGE_HEIGHT = 50;
-    private static final int HORIZONTAL_VELOCITY = -10;
+    private static final String SHIELD_ITEM_NAME = Config.SHIELD_IMAGE;
+    private static final int IMAGE_HEIGHT = Config.SHIELD_SIZE;
+    private static final int HORIZONTAL_VELOCITY = Config.SHIELD_ITEM_HORIZONTAL_VELOCITY;
 
     public ShieldItem(double xPosition, double yPosition) {
         super(SHIELD_ITEM_NAME, IMAGE_HEIGHT, xPosition, yPosition);

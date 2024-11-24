@@ -1,76 +1,61 @@
 package com.example.demo;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import com.example.demo.controller.MyObservable;
 import com.example.demo.controller.MyObserver;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.util.Duration;
 
 
 public abstract class LevelParent{
 
 	private final MyObservable observable = new MyObservable();
 
-	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
-	private static final int MILLISECOND_DELAY = 50;
-
 	private final double screenHeight;
 	private final double screenWidth;
 	private final double enemyMaximumYPosition;
 	private boolean gameActive = true;
-
-	private final Group root;
+	private final Group mRoot;
 	private final GameLoop gameLoop;
-	private final UserPlane user;
+	private final UserPlane mUser;
 	private final Scene scene;
 	private final ImageView background;
 	private final CollisionManager collisionManager;
-
 	private final List<ActiveActorDestructible> friendlyUnits = new ArrayList<>();
 	private final List<ActiveActorDestructible> enemyUnits = new ArrayList<>();
 	private final List<ActiveActorDestructible> userProjectiles = new ArrayList<>();
 	private final List<ActiveActorDestructible> enemyProjectiles = new ArrayList<>();
 	private final List<ActiveActorDestructible> items = new ArrayList<>();
-
-
 	private int currentNumberOfEnemies;
 	private final LevelView levelView;
 	private boolean levelTransitionInProgress = false;
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
-		this.root = new Group();
-		this.scene = new Scene(root, screenWidth, screenHeight);
-		this.gameLoop = new GameLoop(this::updateScene, MILLISECOND_DELAY);
-		this.user = new UserPlane(playerInitialHealth);
+		this.mRoot = new Group();
+		this.scene = new Scene(mRoot, screenWidth, screenHeight);
+		this.gameLoop = new GameLoop(this::updateScene, Config.MILLISECOND_DELAY);
+		this.mUser = new UserPlane(playerInitialHealth);
 		this.background = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(backgroundImageName)).toExternalForm()));
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
-		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
+		this.enemyMaximumYPosition = screenHeight - Config.SCREEN_HEIGHT_ADJUSTMENT;
 		this.levelView = instantiateLevelView();
 		this.currentNumberOfEnemies = 0;
-		this.collisionManager = new CollisionManager(root, user);
+		this.collisionManager = new CollisionManager(mRoot, mUser);
 		collisionManager.setCurrentNumberOfEnemies(currentNumberOfEnemies);
-		friendlyUnits.add(user);
-		System.out.println("Kill Count Text exists: " + root.getChildren().contains(levelView.killCountText));
+		friendlyUnits.add(mUser);
+		System.out.println("Kill Count Text exists: " + mRoot.getChildren().contains(levelView.killCountText));
 
 	}
 
 	public void addObserver(MyObserver observer) {
 		observable.addObserver(observer);
-	}
-
-	public void removeObserver(MyObserver observer) {
-		observable.removeObserver(observer);
 	}
 
 	protected void notifyObservers(Object arg) {
@@ -91,7 +76,7 @@ public abstract class LevelParent{
 		initializeBackground();
 		initializeFriendlyUnits();
 		levelView.showHeartDisplay();
-		root.getChildren().add(UserPlane.shieldImage);
+		mRoot.getChildren().add(UserPlane.shieldImage);
 		return scene;
 	}
 
@@ -116,9 +101,9 @@ public abstract class LevelParent{
 
 		// Update kill count directly
 		if (enemiesDestroyed > 0) {
-			user.incrementKillCount(enemiesDestroyed);
+			mUser.incrementKillCount(enemiesDestroyed);
 			System.out.println("Enemies destroyed: " + enemiesDestroyed);
-			System.out.println("Total kills: " + user.getNumberOfKills());
+			System.out.println("Total kills: " + mUser.getNumberOfKills());
 		}
 
 		cleanupActors();
@@ -153,27 +138,27 @@ public abstract class LevelParent{
 		background.setFocusTraversable(true);
 		background.setOnKeyPressed(this::handleKeyPressed);
 		background.setOnKeyReleased(this::handleKeyReleased);
-		root.getChildren().add(background);
+		mRoot.getChildren().add(background);
 	}
 
 	private void handleKeyPressed(KeyEvent e) {
 		if (!gameActive) return;
 		KeyCode kc = e.getCode();
-		if (kc == KeyCode.UP) user.moveUp();
-		else if (kc == KeyCode.DOWN) user.moveDown();
+		if (kc == KeyCode.UP) mUser.moveUp();
+		else if (kc == KeyCode.DOWN) mUser.moveDown();
 		else if (kc == KeyCode.SPACE) fireProjectile();
 	}
 
 	private void handleKeyReleased(KeyEvent e) {
 		KeyCode kc = e.getCode();
-		if (kc == KeyCode.UP || kc == KeyCode.DOWN) user.stop();
+		if (kc == KeyCode.UP || kc == KeyCode.DOWN) mUser.stop();
 	}
 
 	private void fireProjectile() {
 		if (!gameActive) return;
-		ActiveActorDestructible projectile = user.fireProjectile();
+		ActiveActorDestructible projectile = mUser.fireProjectile();
 		if (projectile != null) {
-			root.getChildren().add(projectile);
+			mRoot.getChildren().add(projectile);
 			userProjectiles.add(projectile);
 		}
 	}
@@ -184,7 +169,7 @@ public abstract class LevelParent{
 
 	private void spawnEnemyProjectile(ActiveActorDestructible projectile) {
 		if (projectile != null) {
-			root.getChildren().add(projectile);
+			mRoot.getChildren().add(projectile);
 			enemyProjectiles.add(projectile);
 		}
 	}
@@ -209,7 +194,7 @@ public abstract class LevelParent{
 	private void removeDestroyedActors(List<ActiveActorDestructible> actors) {
 		List<ActiveActorDestructible> destroyedActors = actors.stream().filter(ActiveActorDestructible::isDestroyed)
 				.toList();
-		root.getChildren().removeAll(destroyedActors);
+		mRoot.getChildren().removeAll(destroyedActors);
 		actors.removeAll(destroyedActors);
 	}
 
@@ -228,12 +213,12 @@ public abstract class LevelParent{
 	}
 
 	private void updateLevelView() {
-		levelView.removeHearts(user.getHealth());
+		levelView.removeHearts(mUser.getHealth());
 
 	}
 
 	private void updateKillCount() {
-		levelView.updateKillCount(user.getNumberOfKills()); // Only update UI
+		levelView.updateKillCount(mUser.getNumberOfKills()); // Only update UI
 	}
 
 	protected void winGame() {
@@ -249,11 +234,11 @@ public abstract class LevelParent{
 	}
 
 	protected UserPlane getUser() {
-		return user;
+		return mUser;
 	}
 
 	protected Group getRoot() {
-		return root;
+		return mRoot;
 	}
 
 	protected int getCurrentNumberOfEnemies() {
@@ -266,7 +251,7 @@ public abstract class LevelParent{
 
 	protected void addEnemyUnit(ActiveActorDestructible enemy) {
 		enemyUnits.add(enemy);
-		root.getChildren().add(enemy);
+		mRoot.getChildren().add(enemy);
 	}
 
 	protected double getEnemyMaximumYPosition() {
@@ -281,7 +266,7 @@ public abstract class LevelParent{
 	}
 
 	protected boolean userIsDestroyed() {
-		return user.isDestroyed();
+		return mUser.isDestroyed();
 	}
 
 	private void updateNumberOfEnemies() {
