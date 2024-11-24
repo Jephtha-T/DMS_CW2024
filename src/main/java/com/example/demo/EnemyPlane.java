@@ -2,13 +2,13 @@ package com.example.demo;
 
 public class EnemyPlane extends FighterPlane {
 
-	private static final String IMAGE_NAME = "enemyplane.png";
-	private static final int IMAGE_HEIGHT = 75;
-	private static final int HORIZONTAL_VELOCITY = -6;
-	private static final double PROJECTILE_X_POSITION_OFFSET = -100.0;
-	private static final double PROJECTILE_Y_POSITION_OFFSET = 50.0;
-	private static final int INITIAL_HEALTH = 1;
-	private static final double FIRE_RATE = .01;
+	private static final String IMAGE_NAME = Config.ENEMY_PLANE_IMAGE ;
+	private static final int IMAGE_HEIGHT = Config.ENEMY_PLANE_HEIGHT;
+	private static final double HORIZONTAL_VELOCITY = Config.ENEMY_HORIZONTAL_VELOCITY;
+	private static final double PROJECTILE_X_POSITION_OFFSET = Config.ENEMY_PROJECTILE_X_OFFSET;
+	private static final double PROJECTILE_Y_POSITION_OFFSET = Config.ENEMY_PROJECTILE_Y_OFFSET;
+	private static final int INITIAL_HEALTH = Config.ENEMY_INITIAL_HEALTH;
+	private static final double FIRE_RATE = Config.ENEMY_FIRE_RATE;
 
 	public EnemyPlane(double initialXPos, double initialYPos) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos, INITIAL_HEALTH);

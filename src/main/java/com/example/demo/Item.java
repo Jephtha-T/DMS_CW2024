@@ -10,5 +10,5 @@ public abstract class Item extends ActiveActorDestructible {
     public abstract void updatePosition();
 
     // Abstract method to define the effect in subclasses
-    protected abstract void triggerEffect(UserPlane userPlane);
+    protected abstract void triggerEffect(UserPlane mUserPlane);
 }

@@ -5,21 +5,21 @@ import java.util.*;
 
 public class Boss extends FighterPlane {
 
-	private static final String IMAGE_NAME = "bossplane.png";
+	private static final String IMAGE_NAME = Config.BOSS_IMAGE_NAME;
 	private static final double INITIAL_X_POSITION = 1000.0;
 	private static final double INITIAL_Y_POSITION = 400;
-	private static final double PROJECTILE_Y_POSITION_OFFSET = 75.0;
-	private static final double BOSS_FIRE_RATE = .04;
-	private static final double BOSS_SHIELD_PROBABILITY = 0.02;
-	private static final int IMAGE_HEIGHT = 150;
-	private static final int VERTICAL_VELOCITY = 8;
-	private static final int HEALTH = 100;
+	private static final double PROJECTILE_Y_POSITION_OFFSET = Config.PROJECTILE_Y_POSITION_OFFSET;
+	private static final double BOSS_FIRE_RATE = Config.BOSS_FIRE_RATE;
+	private static final double BOSS_SHIELD_PROBABILITY = Config.BOSS_SHIELD_PROBABILITY;
+	private static final int IMAGE_HEIGHT = Config.BOSS_IMAGE_HEIGHT;
+	private static final int VERTICAL_VELOCITY = Config.BOSS_VERTICAL_VELOCITY;
+	private static final int HEALTH = Config.BOSS_INITIAL_HEALTH;
 	private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
 	private static final int ZERO = 0;
 	private static final int MAX_FRAMES_WITH_SAME_MOVE = 10;
-	private static final int Y_POSITION_UPPER_BOUND = -100;
+	private static final int Y_POSITION_UPPER_BOUND = 100;
 	private static final int Y_POSITION_LOWER_BOUND = 475;
-	private static final int MAX_FRAMES_WITH_SHIELD = 50;
+	private static final int MAX_FRAMES_WITH_SHIELD = Config.BOSS_MAX_FRAMES_WITH_SHIELD;
 	private final List<Integer> movePattern;
 	private boolean isShielded;
 	private int consecutiveMovesInSameDirection;

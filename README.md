@@ -42,8 +42,18 @@ Enumerate any new Java classes that you introduced for the
 assignment. Include a brief description of each class's purpose and its location in the  
 code.  
 
-MyObserver
+MyObservable
 - observer interface to replace depreciated observable classes used in Controller and LevelParent Classes
+
+LevelManager
+- handles level transitions instead of Controller and Level Parent
+- Used as having a dedicated class for management is much more efficient if main menus, more levels or pause menus are added
+
+CollisionManager
+- Handles all collisions between items, planes and projectiles, made to reduce complexity of levelparent
+
+GameLoop
+- Handles actual Game loop and timeline, made to reduce complexity of LevelParent
   
 Items
 - Class for items that can be picked up by user plane for power ups
@@ -61,10 +71,11 @@ ShieldImage
 
 Controller
 - IllegalArgumentException and  SecurityException throw removed from launchgame
-- Observer class extension removed as it is depreciated, replaced with Observer interface which notifies all listed observers if changes occur
+- Observer class extension removed as it is depreciated
+- Update and Gotolevel removed, handled by levelmanager instead
 
 LevelParent
-- Observer class extension removed as it is depreciated
+- Observer class extension removed as it is depreciated (Replaced with Composition of a MyObservable class instead of inheritance)
 - import java.util.*;, import javafx.animation.*;, javafx.scene.image.*;, javafx.scene.input.*; removed and actual necessary imports are specified
 - updateActors method lambdas replaced with ActiveActorDestructible
 - removeDestroyedActors lambda replaced with ActiveActorDestructible, collect(Collectors.toList()) replaced with ToList()
@@ -75,12 +86,15 @@ LevelParent
 - InitializeBackground method removed handleKeyPressed, handleKeyReleased instead moved as new methods each
 - SetChanged, removed as observer interface is available and can be notified directly
 - fireProjectile method added if(projectile != null) clause similar to spawnEnemyProjectile method
-- handlePlaneCollisions, handleUserProjectileCollisions, handleEnemyProjectileCollisions removed, instead handlecollisions now uses handleCollisionBetweenLists to handle all collisions from different actors
+- Collision Handling now moved to its own class as it was too complicated to be in one class as levelparent
 - HandleEnemyPenetration, added boolean return to remove enemy from list if destroyed, root.getChildren().remove(enemy); added to remove enemy sprite once penetrated
 - updateKillCount for loop removed, instead it only runs once per call
 - gameActive boolean flag added so that user can no longer input actions once game is lost or won
 - Items list array added and updated, destroyed & added to root accordingly
 - User & Item collision handled to trigger item effect 
+- Gotonextlevel removed, handled by level manager now
+- Any Methods working with timeline has been changed to divert to GameLoop class
+- Initialize Timeline method removed as now unecessary and simply calls GameLoop
 
 
 UserPlane
@@ -103,6 +117,7 @@ Boss
 
 LevelOne
 - SpawnItems Method added for all items 
+- check if game over now properly transitions to next level when killcount reaches limit
 
 LevelViewLevelTwo
 - Any lines related to spawning and updating shield removed, instead moved to Boss class directly & addition to root done in LevelTwo Class
