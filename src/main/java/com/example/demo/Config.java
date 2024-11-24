@@ -81,7 +81,7 @@ public final class Config {
     public static final String GAME_OVER_IMAGE = IMAGE_PATH_PREFIX + "gameover.png";
     public static final int GAME_OVER_IMAGE_HEIGHT = 500;
     public static final int GAME_OVER_IMAGE_WIDTH = 600;
-    public static final double KILL_COUNT_TEXT_X = SCREEN_WIDTH - 150;
+    public static final double KILL_COUNT_TEXT_X = SCREEN_WIDTH - 150.0;
     public static final double KILL_COUNT_TEXT_Y = 700;
     public static final String WIN_IMAGE = IMAGE_PATH_PREFIX + "youwin.png";
     public static final int WIN_IMAGE_HEIGHT = 500;
