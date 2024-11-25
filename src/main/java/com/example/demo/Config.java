@@ -71,7 +71,7 @@ public final class Config {
     public static final int TOTAL_ITEMS = 2;
     public static final int KILLS_TO_ADVANCE = 10;
     public static final double ENEMY_SPAWN_PROBABILITY = 0.20;
-    public static final double ITEM_SPAWN_PROBABILITY = 0.05;
+    public static final double ITEM_SPAWN_PROBABILITY = 0.03;
 
     // UI Constants
     public static final String HEART_IMAGE_NAME = IMAGE_PATH_PREFIX + "heart.png";

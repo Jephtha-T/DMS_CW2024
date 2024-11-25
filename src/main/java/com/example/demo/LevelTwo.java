@@ -1,5 +1,7 @@
 package com.example.demo;
 
+
+
 public class LevelTwo extends LevelParent {
 
 	private static final String BACKGROUND_IMAGE_NAME = Config.LEVEL_TWO_BACKGROUND;
@@ -9,12 +11,10 @@ public class LevelTwo extends LevelParent {
     public LevelTwo(double screenHeight, double screenWidth) {
 		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
 		boss = new Boss();
-		System.out.println("LevelTwo initialized with boss and player.");
 	}
 
 	@Override
 	protected void initializeFriendlyUnits() {
-		System.out.println("Initializing friendly units for LevelTwo...");
 		getRoot().getChildren().add(getUser());
 	}
 
@@ -38,7 +38,7 @@ public class LevelTwo extends LevelParent {
 
 	@Override
 	protected void spawnItems() {
-
+		//No Items spawned in boss fight
 	}
 
 	@Override

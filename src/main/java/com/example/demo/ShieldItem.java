@@ -24,9 +24,4 @@ public class ShieldItem extends Item {
     public void updateActor() {
         updatePosition();
     }
-
-    @Override
-    public void takeDamage() {
-
-    }
 }

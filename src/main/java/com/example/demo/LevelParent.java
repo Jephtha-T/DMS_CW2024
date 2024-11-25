@@ -36,7 +36,7 @@ public abstract class LevelParent{
 	private final LevelView levelView;
 	private boolean levelTransitionInProgress = false;
 
-	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
+	protected LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.mRoot = new Group();
 		this.scene = new Scene(mRoot, screenWidth, screenHeight);
 		this.gameLoop = new GameLoop(this::updateScene, Config.MILLISECOND_DELAY);
@@ -50,7 +50,6 @@ public abstract class LevelParent{
 		this.collisionManager = new CollisionManager(mRoot, mUser);
 		collisionManager.setCurrentNumberOfEnemies(currentNumberOfEnemies);
 		friendlyUnits.add(mUser);
-		System.out.println("Kill Count Text exists: " + mRoot.getChildren().contains(levelView.killCountText));
 
 	}
 
@@ -91,19 +90,13 @@ public abstract class LevelParent{
 		updateAllActors();
 
 		// Accumulate destroyed enemies
-		int enemiesDestroyed = collisionManager.handleCollisions(
-				friendlyUnits,
-				enemyUnits,
-				userProjectiles,
-				enemyProjectiles,
-				items
+		int enemiesDestroyed = collisionManager.handleCollisions(enemyUnits,
+				userProjectiles, enemyProjectiles, items
 		);
 
 		// Update kill count directly
 		if (enemiesDestroyed > 0) {
 			mUser.incrementKillCount(enemiesDestroyed);
-			System.out.println("Enemies destroyed: " + enemiesDestroyed);
-			System.out.println("Total kills: " + mUser.getNumberOfKills());
 		}
 
 		cleanupActors();

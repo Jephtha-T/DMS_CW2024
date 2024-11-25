@@ -66,7 +66,6 @@ public class Boss extends FighterPlane {
 	public void takeDamage() {
 		if (!isShielded) {
 			super.takeDamage();
-			System. out. println("hit");
 		}
 	}
 
@@ -87,11 +86,9 @@ public class Boss extends FighterPlane {
 			framesWithShieldActivated++;
 			if (framesWithShieldActivated >= MAX_FRAMES_WITH_SHIELD) {
 				deactivateShield();
-				System. out. println("shield off");
 			}
 		} else if (Math.random() < BOSS_SHIELD_PROBABILITY) {
 			activateShield();
-			System. out. println("shield on");
 		}
 	}
 

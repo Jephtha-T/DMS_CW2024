@@ -8,7 +8,7 @@ public abstract class ActiveActor extends ImageView {
 
 	private static final String IMAGE_LOCATION = Config.IMAGE_PATH_PREFIX;
 
-	public ActiveActor(String imageName, int imageHeight, double initialXPos, double initialYPos) {
+	protected ActiveActor(String imageName, int imageHeight, double initialXPos, double initialYPos) {
 		this.setImage(new Image(Objects.requireNonNull(getClass().getResource(IMAGE_LOCATION + imageName)).toExternalForm()));
 		this.setLayoutX(initialXPos);
 		this.setLayoutY(initialYPos);

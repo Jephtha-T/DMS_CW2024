@@ -23,7 +23,6 @@ public class LevelOne extends LevelParent {
 		}
 		else if (userHasReachedKillTarget() && !isTransitionInProgress()) {
 			startLevelTransition(); // Mark the transition as started
-			System.out.println("Player met kill target, requesting transition.");
 			notifyObservers(NEXT_LEVEL); // Notify LevelManager of the next level
 		}
 	}
@@ -50,7 +49,6 @@ public class LevelOne extends LevelParent {
 		int currentNumberOfItems = getCurrentNumberOfItems();
 		for (int i = 0; i < TOTAL_ITEMS - currentNumberOfItems; i++) {
 			if (Math.random() < ITEM_SPAWN_PROBABILITY) {
-				System.out.println("Spawning Shield");
 				double newItemInitialYPosition = Math.random() * getEnemyMaximumYPosition();
 				ShieldItem newShieldItem = new ShieldItem(getScreenWidth(), newItemInitialYPosition);
 				addItem(newShieldItem); // This adds it to the root and keeps track of the items

@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -9,7 +10,7 @@ public class GameLoop {
 
     public GameLoop(Runnable action, int intervalMilliseconds) {
         this.timeline = new Timeline(new KeyFrame(Duration.millis(intervalMilliseconds), e -> action.run()));
-        this.timeline.setCycleCount(Timeline.INDEFINITE);
+        this.timeline.setCycleCount(Animation.INDEFINITE);
     }
 
     public void start() {
