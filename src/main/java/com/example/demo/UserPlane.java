@@ -12,7 +12,7 @@ public class UserPlane extends FighterPlane {
 	private static final double PROJECTILE_X_POSITION = Config.USER_PROJECTILE_X_OFFSET;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = Config.USER_PROJECTILE_Y_OFFSET;
 	private static final int MAX_FRAMES_WITH_SHIELD = Config.MAX_FRAMES_WITH_SHIELD;
-	private int velocityMultiplier;
+	private double velocityMultiplier;
 	private boolean isShielded;
 	private int numberOfKills;
 	private int framesWithShieldActivated;
@@ -76,12 +76,10 @@ public class UserPlane extends FighterPlane {
 
 	public void incrementKillCount(int count) {
 		this.numberOfKills+= count;
-		System.out.println("Kill count updated: " + this.numberOfKills);
 	}
 
 	protected void activateShield() {
 		isShielded = true;
-		System.out.println("shield on");
 		shieldImage.activateShield();  // Activate the shield image
 		shieldImage.setTranslateX(getTranslateX() - 20); // Adjust position relative to the plane
 		shieldImage.setTranslateY(getTranslateY() - 20);
@@ -93,13 +91,11 @@ public class UserPlane extends FighterPlane {
 		framesWithShieldActivated = 0;
 		shieldImage.deactivateShield();  // Deactivate the shield image
 		shieldImage.setVisible(false);
-		System.out.println("shield off");
 	}
 
 	@Override
 	public void takeDamage() {
 		if (isShielded) {
-			System.out.println("Shield absorbed the damage!");
 			return; // Prevent health reduction
 		}
 		super.takeDamage(); // Otherwise, apply damage normally

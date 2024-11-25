@@ -20,7 +20,6 @@ public class CollisionManager {
     }
 
     public int handleCollisions(
-            List<ActiveActorDestructible> friendlyUnits,
             List<ActiveActorDestructible> enemyUnits,
             List<ActiveActorDestructible> userProjectiles,
             List<ActiveActorDestructible> enemyProjectiles,
@@ -72,7 +71,6 @@ public class CollisionManager {
                     actor.destroy();
                     mRoot.getChildren().remove(actor);
                     destroyedCount.incrementAndGet();
-                    System.out.println("Shield absorbed collision.");
                 } else {
                     mUser.takeDamage();
                     actor.takeDamage();
@@ -91,15 +89,13 @@ public class CollisionManager {
 
     private void processItemCollisions(UserPlane mUser, List<ActiveActorDestructible> items) {
         items.removeIf(item -> {
-            if (item.getBoundsInParent().intersects(mUser.getBoundsInParent())) {
-                if (item instanceof Item) {
-                    ((Item) item).triggerEffect(mUser);
-                    item.destroy();
-                    mRoot.getChildren().remove(item);
-                    System.out.println("Item effect triggered.");
+            if (item.getBoundsInParent().intersects(mUser.getBoundsInParent()) && item instanceof Item castedItem) {
+                    castedItem.triggerEffect(mUser);
+                    castedItem.destroy();
+                    mRoot.getChildren().remove(castedItem);
+                    return true; // Remove from list
                 }
-                return true; // Remove from list
-            }
+
             return false; // Keep in list
         });
     }
@@ -138,7 +134,6 @@ public class CollisionManager {
             if (enemyHasPenetratedDefenses(enemy)) {
                 mUser.takeTrueDamage();
                 currentNumberOfEnemies--;
-                System.out.println("Enemy Penetrated Defense");
                 enemy.destroy();
                 mRoot.getChildren().remove(enemy);
                 enemiesDestroyed.getAndIncrement();

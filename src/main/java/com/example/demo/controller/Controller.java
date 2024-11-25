@@ -14,7 +14,7 @@ public class Controller{
 		this.levelManager = new LevelManager(stage);
 	}
 
-	public void launchGame() throws Exception {
+	public void launchGame(){
 		levelManager.loadLevel(LEVEL_ONE_CLASS_NAME);
 	}
 }

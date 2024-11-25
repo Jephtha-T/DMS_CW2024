@@ -12,10 +12,6 @@ public class MyObservable {
 		observers.add(observer);
 	}
 
-	public void removeObserver(MyObserver observer) {
-		observers.remove(observer);
-	}
-
 	public void setChanged() {
 		hasChanged = true;
 	}
