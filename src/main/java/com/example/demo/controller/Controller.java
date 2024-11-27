@@ -1,13 +1,13 @@
 package com.example.demo.controller;
 
-import com.example.demo.LevelManager;
+import com.example.demo.LevelControl.LevelManager;
 
 import javafx.stage.Stage;
 
 
 public class Controller{
 
-	private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.LevelOne";
+	private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.LevelControl.LevelOne";
 	private final LevelManager levelManager;
 
 	public Controller(Stage stage) {

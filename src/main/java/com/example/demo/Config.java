@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.util.Objects;
+
 public final class Config {
 
     // General Game Configuration
@@ -8,16 +10,27 @@ public final class Config {
     public static final int MILLISECOND_DELAY = 50;
     public static final double SCREEN_HEIGHT_ADJUSTMENT = 50.0;
     public static final double Y_UPPER_BOUND = -40;
-    public static final double Y_LOWER_BOUND = 600.0;
+    public static final double Y_LOWER_BOUND = 700.0;
+    public static final String MAIN_MENU_FXML = "/com/example/demo/MainMenu.fxml";
 
     // Image Paths
     public static final String IMAGE_PATH_PREFIX = "/com/example/demo/images/";
+    public static final String AUDIO_PATH_PREFIX = "/com/example/demo/Audio/";
+
+    //Audio
+
+    public static final String EXPLOSION_AUDIO = AUDIO_PATH_PREFIX + "ArcadeExplosion.wav";
+    public static final String GAME_OVER_AUDIO = AUDIO_PATH_PREFIX + "ArcadeGameOver.wav";
+    public static final String GUNSHOT_AUDIO = AUDIO_PATH_PREFIX + "ArcadeGunshot.mp3";
+    public static final String START_AUDIO = AUDIO_PATH_PREFIX + "ArcadeLevelStart.wav";
+    public static final String WIN_AUDIO = AUDIO_PATH_PREFIX + "ArcadeWin.wav";
+    public static final String BG_MUSIC_AUDIO = AUDIO_PATH_PREFIX + "SciFiBgMusic.mp3";
 
     // UserPlane Configuration
     public static final String USER_PLANE_IMAGE  = "userplane.png";
     public static final int USER_INITIAL_HEALTH = 5;
-    public static final double USER_SHIELD_X_OFFSET = 10.0;
-    public static final double USER_SHIELD_Y_OFFSET = 15.0;
+    public static final double USER_SHIELD_X_OFFSET = -20.0;
+    public static final double USER_SHIELD_Y_OFFSET = 0.0;
     public static final int USERPLANE_HEIGHT = 75;
     public static final int USERPLANE_VERTICAL_VELOCITY = 8;
 
@@ -25,15 +38,21 @@ public final class Config {
     public static final double USER_PROJECTILE_X_OFFSET = 110.0;
     public static final double USER_PROJECTILE_Y_OFFSET = 20.0;
     public static final String USER_PROJECTILE_IMAGE = "userfire.png";
-    public static final int USER_PROJECTILE_HEIGHT = 125;
+    public static final int USER_PROJECTILE_HEIGHT = 30;
     public static final int USER_PROJECTILE_HORIZONTAL_VELOCITY = 15;
 
     //Shield Configuration
     public static final String SHIELD_IMAGE =  "shield.png";
-    public static final int SHIELD_SIZE = 100;
+    public static final String SHIELD_EFFECT=  "shield_effect.png";
+    public static final int SHIELD_SIZE = 50;
     public static final int MAX_FRAMES_WITH_SHIELD = 100;
     public static final int SHIELD_ITEM_HORIZONTAL_VELOCITY = -10;
 
+    public static final String EXPLOSION_SPRITESHEET_PATH = IMAGE_PATH_PREFIX + "SpriteSheets/explosion_spritesheet.png";
+    public static final int EXPLOSION_FRAME_WIDTH = 517;
+    public static final int EXPLOSION_FRAME_HEIGHT = 517;
+    public static final int EXPLOSION_TOTAL_FRAMES = 30;
+    public static final double EXPLOSION_FRAME_DURATION = 0.1; // Seconds per frame
 
 
     // Enemy Configuration
@@ -42,7 +61,7 @@ public final class Config {
     public static final int ENEMY_PLANE_HEIGHT = 75;
     public static final double ENEMY_HORIZONTAL_VELOCITY = -6.0;
     public static final double ENEMY_PROJECTILE_X_OFFSET = -100.0;
-    public static final double ENEMY_PROJECTILE_Y_OFFSET = 50.0;
+    public static final double ENEMY_PROJECTILE_Y_OFFSET = 10.0;
     public static final double ENEMY_FIRE_RATE = 0.01;
 
     // Boss Configuration
@@ -59,14 +78,15 @@ public final class Config {
     public static final String BOSS_PROJECTILE_IMAGE = "fireball.png";
     public static final int BOSS_PROJECTILE_HEIGHT = 75;
     public static final int BOSS_PROJECTILE_HORIZONTAL_VELOCITY = -15;
-
-    public static final String ENEMY_PROJECTILE_IMAGE = "enemyFire.png";
-    public static final int ENEMY_PROJECTILE_HEIGHT = 40;
+    public static final String ENEMY_PROJECTILE_IMAGE = "enemyfire.png";
+    public static final int ENEMY_PROJECTILE_HEIGHT = 30;
     public static final int ENEMY_PROJECTILE_HORIZONTAL_VELOCITY = -10;
 
     // Level Configuration
-    public static final String LEVEL_ONE_BACKGROUND = IMAGE_PATH_PREFIX + "background1.jpg";
-    public static final String LEVEL_TWO_BACKGROUND = IMAGE_PATH_PREFIX + "background2.jpg";
+    public static final String LEVEL_ONE_CLASS = "com.example.demo.LevelControl.LevelOne";
+    public static final String LEVEL_TWO_CLASS = "com.example.demo.LevelControl.LevelTwo";
+    public static final String LEVEL_ONE_BACKGROUND = IMAGE_PATH_PREFIX + "background1.png";
+    public static final String LEVEL_TWO_BACKGROUND = IMAGE_PATH_PREFIX + "background2.png";
     public static final int TOTAL_ENEMIES = 5;
     public static final int TOTAL_ITEMS = 2;
     public static final int KILLS_TO_ADVANCE = 10;
@@ -82,10 +102,11 @@ public final class Config {
     public static final int GAME_OVER_IMAGE_HEIGHT = 500;
     public static final int GAME_OVER_IMAGE_WIDTH = 600;
     public static final double KILL_COUNT_TEXT_X = SCREEN_WIDTH - 150.0;
-    public static final double KILL_COUNT_TEXT_Y = 700;
+    public static final double KILL_COUNT_TEXT_Y = 50.0;
     public static final String WIN_IMAGE = IMAGE_PATH_PREFIX + "youwin.png";
     public static final int WIN_IMAGE_HEIGHT = 500;
     public static final int WIN_IMAGE_WIDTH = 600;
+
 
 
     private Config() {

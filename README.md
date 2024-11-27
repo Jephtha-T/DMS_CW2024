@@ -11,19 +11,20 @@ required.
 List the features that have been successfully  
 implemented and are functioning as expected. Provide a brief description of each.  
   
-Main Menu Screen  
+- Main Menu Screen  
+- Pause Function
 Replay button  
 Level Select Screen  
 - Fixed Hitboxes (Blank Spaces removed in resource images to reflect hitboc properly)
-Impact VFX  
-Scoreboard  
+- Impact VFX  
+- Scoreboard  (Clearly Shows kill per level and kills needed to go to next level)
 Weapon Upgrades  
 - Items   (Items to be picked up by Userplane for power ups)
   - ShieldItem (Invulnerability Shield for User from projectiles)
-Music  
+- Music & SFX
 Different Enemies  
 More Levels  
-walls lasers
+walls / lasers
   
   
 # Implemented but Not Working Properly: 
@@ -58,7 +59,19 @@ GameLoop
 Items
 - Class for items that can be picked up by user plane for power ups
 
+Config
+- Class for data storgae to keep all variables in a centralised file for ease of access
+
 ShieldItem
+
+Main Menu Controller
+- New controller for main menu that loads when main is run, buttons to play and exit
+
+SoundManager
+- Handles all methods related to music and SFX
+
+SpriteSheetAnimation
+- Handles animations (Currently Explosion animation when a fighter plane is destroyed)
 
 # Modified Java Classes: 
 List the Java classes you modified from the provided code  
@@ -68,6 +81,7 @@ necessary.
 ShieldImage
 - image path fixed from shield.jpg to shield.png
 - Now extends ActiveActor instead of ImageView 
+- Shield Effect now has a different visual compared to shield item
 
 Controller
 - IllegalArgumentException and  SecurityException throw removed from launchgame
@@ -95,7 +109,11 @@ LevelParent
 - Gotonextlevel removed, handled by level manager now
 - Any Methods working with timeline has been changed to divert to GameLoop class
 - Initialize Timeline method removed as now unecessary and simply calls GameLoop
+- Calls Sound Manager for all Music and SFX
+- Pause method implemented when user presses Esc to show a pause screen and stop timeline
 
+FighterPlane
+- HealthAtZero method removed, worked inline at takedamage function
 
 UserPlane
 - incrementKillCount now accepts a count int argument to accomodate for using array lists in level parent when a enemy plane is destroyed
@@ -106,6 +124,7 @@ UserPlane
 ActiveActor
 - getClass().getResource(IMAGE_LOCATION + imageName).toExternalForm() changed to Objects.requireNonNull(getClass().getResource(IMAGE_LOCATION + imageName)).toExternalForm()) to prevent null pointer exception
 - this.setImage(new Image(IMAGE_LOCATION + imageName)); removed as setimage using getClass().getResource() is more efficient, portable and flexible for javaFx applications compared to direct pathing
+- Added error logging in case image is not loaded properly
 
 ActiveActorDestructible (This is not merged with ActiveActor for maintainability incase any new features include non destructible objects)
 - setDestroyed method removed, integrated directly into destroy() to set isDestroyed to true when called
@@ -115,15 +134,19 @@ Boss
 - updatePosition() added line to update shield position as well
 - Activate and Deactive Shield now calls show and hide shield properly
 
+Destructible
+- Removed, having such a small interface is redundant and is instead directly integrated onto ActiveActorDestructible
+
 LevelOne
 - SpawnItems Method added for all items 
 - check if game over now properly transitions to next level when killcount reaches limit
 
 LevelViewLevelTwo
-- Any lines related to spawning and updating shield removed, instead moved to Boss class directly & addition to root done in LevelTwo Class
+- Entirely Removed, instead moved to Boss class directly & addition to root done in LevelTwo Class
 
 LevelTwo
 - SpawnEnemyUnits() now also spawns in the shield image so that it is in root and can be called properly
+
 
 
 # Unexpected Problems: 
