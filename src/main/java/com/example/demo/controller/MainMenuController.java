@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 public class MainMenuController {
 
-    private Stage stage;
+    public static Stage stage;
 
     public void setStage(Stage stage) {
         this.stage = stage;

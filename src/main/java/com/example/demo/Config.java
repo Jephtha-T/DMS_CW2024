@@ -12,13 +12,14 @@ public final class Config {
     public static final double Y_UPPER_BOUND = -40;
     public static final double Y_LOWER_BOUND = 700.0;
     public static final String MAIN_MENU_FXML = "/com/example/demo/MainMenu.fxml";
+    public static final String PAUSE_MENU_FXML = "/com/example/demo/PauseMenu.fxml";
+    public static final String FONT_TTF = "/com/example/demo/RetroGaming.ttf";
 
     // Image Paths
     public static final String IMAGE_PATH_PREFIX = "/com/example/demo/images/";
     public static final String AUDIO_PATH_PREFIX = "/com/example/demo/Audio/";
 
     //Audio
-
     public static final String EXPLOSION_AUDIO = AUDIO_PATH_PREFIX + "ArcadeExplosion.wav";
     public static final String GAME_OVER_AUDIO = AUDIO_PATH_PREFIX + "ArcadeGameOver.wav";
     public static final String GUNSHOT_AUDIO = AUDIO_PATH_PREFIX + "ArcadeGunshot.mp3";

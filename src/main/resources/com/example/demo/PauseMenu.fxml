@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.example.demo.controller.PauseMenuController" alignment="CENTER">
+    <!-- Background Image -->
+    <ImageView fitWidth="400" preserveRatio="true" StackPane.alignment="CENTER">
+        <image>
+            <Image url="@images/PauseBG.png" />
+        </image>
+    </ImageView>
+
+    <!-- Main Buttons in Center -->
+    <VBox alignment="CENTER" maxWidth="350" prefHeight="360.0" prefWidth="350.0" spacing="10" StackPane.alignment="CENTER">
+        <!-- Resume Button -->
+        <Button onAction="#resumeGame" style="-fx-background-color: transparent; -fx-padding: 0;">
+            <graphic>
+                <ImageView fitWidth="140" preserveRatio="true">
+                    <image>
+                        <Image url="@images/Resume_Button.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+
+        <!-- Retry Button -->
+        <Button onAction="#retryLevel" style="-fx-background-color: transparent; -fx-padding: 0;">
+            <graphic>
+                <ImageView fitWidth="140" preserveRatio="true">
+                    <image>
+                        <Image url="@images/Retry_Button.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+
+        <!-- Main Menu Button -->
+        <Button onAction="#goToMainMenu" style="-fx-background-color: transparent; -fx-padding: 0;">
+            <graphic>
+                <ImageView fitWidth="140" preserveRatio="true">
+                    <image>
+                        <Image url="@images/Main_Button.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+    </VBox>
+
+    <!-- Bottom-Right Exit Button -->
+    <Button fx:id="exitButton" onAction="#exitGame" style="-fx-background-color: transparent; -fx-padding: 0;" StackPane.alignment="BOTTOM_RIGHT">
+        <graphic>
+            <ImageView fitWidth="130" preserveRatio="true">
+                <image>
+                    <Image url="@images/Exit_Button.png" />
+                </image>
+            </ImageView>
+        </graphic>
+    </Button>
+</StackPane>

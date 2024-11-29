@@ -1,34 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 
-<StackPane xmlns="http://javafx.com/javafx/8.0.171"
-           xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.example.demo.controller.MainMenuController">
+<StackPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.MainMenuController">
     <!-- Background Image -->
-    <ImageView fx:id="backgroundImage" fitWidth="1300" fitHeight="750" preserveRatio="false">
+    <ImageView fx:id="backgroundImage" fitHeight="750" fitWidth="1300" preserveRatio="false">
         <image>
-            <!--<Image url="@images/background.jpg" />-->
+            <Image url="@images/MainMenuBG .png" />
         </image>
     </ImageView>
 
     <!-- Main Layout -->
-    <VBox alignment="CENTER" spacing="20">
+    <VBox alignment="TOP_CENTER" spacing="20">
         <!-- Icon Image -->
-        <ImageView fx:id="iconImage" fitWidth="200" fitHeight="200" preserveRatio="true">
+        <ImageView fx:id="iconImage" fitHeight="526.0" fitWidth="728.0" preserveRatio="true">
             <image>
-                <!--<Image url="@images/icon.png" />-->
+                <Image url="@images/Title.png" />
             </image>
         </ImageView>
 
         <!-- Buttons -->
         <VBox alignment="CENTER" spacing="10">
-            <Button text="Play Level One" fx:id="playButton" onAction="#playLevelOne" style="-fx-font-size: 16px;" />
-            <Button text="Exit" fx:id="exitButton" onAction="#exitGame" style="-fx-font-size: 16px;" />
+            <Button fx:id="playButton" onAction="#playLevelOne" style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitWidth="200" fitHeight="100" preserveRatio="true">
+                        <image>
+                            <Image url="@images/Arcade_Btn.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="exitButton" onAction="#exitGame" style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitWidth="200" fitHeight="100" preserveRatio="true">
+                        <image>
+                            <Image url="@images/Exit_Btn.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+
         </VBox>
     </VBox>
 </StackPane>

@@ -8,6 +8,7 @@ import com.example.demo.Actors.ActiveActorDestructible;
 import com.example.demo.Config;
 import com.example.demo.Actors.FighterPlane;
 import com.example.demo.Actors.UserPlane;
+import com.example.demo.controller.MainMenuController;
 import com.example.demo.controller.MyObservable;
 import com.example.demo.controller.MyObserver;
 import javafx.scene.Group;
@@ -41,11 +42,15 @@ public abstract class LevelParent{
 	private boolean levelTransitionInProgress = false;
 	private final SoundManager soundManager;
 	private boolean paused = false; // Tracks if the game is paused
+	private PauseMenuManager pauseMenuManager;
+	private boolean gameActive = true;
+
+
 
 
 
 	protected LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
-		this.mRoot = new Group();
+        this.mRoot = new Group();
 		this.scene = new Scene(mRoot, screenWidth, screenHeight);
 		this.gameLoop = new GameLoop(this::updateScene, Config.MILLISECOND_DELAY);
 		this.mUser = new UserPlane(playerInitialHealth);
@@ -54,12 +59,12 @@ public abstract class LevelParent{
 		this.screenWidth = screenWidth;
 		this.enemyMaximumYPosition = screenHeight - Config.SCREEN_HEIGHT_ADJUSTMENT;
 		this.currentNumberOfEnemies = 0;
+		this.pauseMenuManager = new PauseMenuManager(mRoot, this);
 		this.collisionManager = new CollisionManager(mRoot, mUser);
 		collisionManager.setCurrentNumberOfEnemies(currentNumberOfEnemies);
 		friendlyUnits.add(mUser);
 		this.levelView = instantiateLevelView();
 		soundManager = new SoundManager();
-		soundManager.playBackgroundMusic(Config.BG_MUSIC_AUDIO);
 	}
 
 	public void addObserver(MyObserver observer) {
@@ -90,11 +95,14 @@ public abstract class LevelParent{
 	}
 
 	public void startGame() {
+		gameActive = true; // Enable input
 		resetUserState();
 		background.requestFocus();
-		gameLoop.start(); // Correctly calls the instance method
+		gameLoop.start();
 		soundManager.playSoundEffect("levelStart");
+		soundManager.playBackgroundMusic(Config.BG_MUSIC_AUDIO);
 	}
+
 
 	private void resetUserState() {
 		mUser.deactivateShield(); // Ensure the shield is turned off
@@ -153,14 +161,14 @@ public abstract class LevelParent{
 	}
 
 	private void handleKeyPressed(KeyEvent e) {
-		KeyCode kc = e.getCode();
+		if (!gameActive) return; // Ignore inputs if the game is not active
 
+		KeyCode kc = e.getCode();
 		if (kc == KeyCode.ESCAPE) {
-			togglePause(); // Toggle pause when Escape is pressed
+			togglePause();
 			return;
 		}
-
-		if (paused) return; // Prevent other inputs if game is paused
+		if (paused) return;
 
 		if (kc == KeyCode.UP) mUser.moveUp();
 		else if (kc == KeyCode.DOWN) mUser.moveDown();
@@ -172,21 +180,25 @@ public abstract class LevelParent{
 		if (kc == KeyCode.UP || kc == KeyCode.DOWN) mUser.stop();
 	}
 
-	private void togglePause() {
-		paused = !paused; // Toggle the pause state
+	void togglePause() {
+		if (!gameActive) return; // Prevent pausing/resuming if the game is over
+
+		paused = !paused;
 
 		if (paused) {
 			gameLoop.stop(); // Stop the game loop
-			soundManager.pauseBackgroundMusic(); // Pause the music
-			// Optional: Add visuals for paused state
-			// showPauseOverlay();
+			soundManager.pauseBackgroundMusic(); // Pause music
+			pauseMenuManager.showPauseMenu(); // Show the pause menu
 		} else {
-			gameLoop.start(); // Resume the game loop
-			soundManager.resumeBackgroundMusic(); // Resume the music
-			// Optional: Remove visuals for paused state
-			// hidePauseOverlay();
+			pauseMenuManager.hidePauseMenu(); // Hide the pause menu
+			gameLoop.start(); // Restart the game loop
+			soundManager.resumeBackgroundMusic(); // Resume music
 		}
 	}
+
+
+
+
 
 	private void fireProjectile() {
 		if (paused) return;
@@ -259,16 +271,17 @@ public abstract class LevelParent{
 	}
 
 	protected void winGame() {
-		gameLoop.stop();
+		stopGame();
 		levelView.showWinImage();
 		soundManager.playSoundEffect("win");
 	}
 
 	protected void loseGame() {
-		gameLoop.stop();
+		stopGame();
 		levelView.showGameOverImage();
 		soundManager.playSoundEffect("gameOver");
 	}
+
 
 	protected UserPlane getUser() {
 		return mUser;
@@ -310,7 +323,21 @@ public abstract class LevelParent{
 		currentNumberOfEnemies = enemyUnits.size();
 	}
 
+	protected abstract int getKillsToAdvance();
+
 	public void stopGame() {
 		gameLoop.stop();
+		soundManager.stopBackgroundMusic();
+
+		// Clear all entities to release memory
+		friendlyUnits.clear();
+		enemyUnits.clear();
+		userProjectiles.clear();
+		enemyProjectiles.clear();
+		items.clear();
+
+		// Additional cleanup if required
+		gameActive = false;  // Indicate game has stopped
 	}
+
 }

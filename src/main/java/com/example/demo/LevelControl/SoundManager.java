@@ -53,9 +53,12 @@ public class SoundManager {
         }
     }
 
-    public void stopBackgroundMusic() {
+    void stopBackgroundMusic() {
         if (backgroundMusic != null) {
             backgroundMusic.stop();
+            backgroundMusic.dispose(); // Properly release resources if supported
+            backgroundMusic = null;   // Nullify to avoid dangling references
         }
     }
+
 }

@@ -35,7 +35,7 @@ public class CollisionManager {
         totalEnemiesDestroyed += handleFriendlyCollisions(userProjectiles, enemyUnits);
 
         // Enemy penetration
-        totalEnemiesDestroyed += handleEnemyPenetration(enemyUnits);
+        handleEnemyPenetration(enemyUnits);
         return totalEnemiesDestroyed;
     }
 

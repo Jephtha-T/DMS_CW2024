@@ -23,16 +23,20 @@ public class LevelView {
 	private final HeartDisplay heartDisplay;
 	private int killCount;
 	public final Text killCountText;
+	private final int killsToAdvance;
 	
-	public LevelView(Group mRoot, int heartsToDisplay) {
+	public LevelView(Group mRoot, int heartsToDisplay, int killsToAdvance) {
 		this.mRoot = mRoot;
+		this.killsToAdvance = killsToAdvance;
 		this.killCount = 0;
 		this.heartDisplay = new HeartDisplay(HEART_DISPLAY_X_POSITION, HEART_DISPLAY_Y_POSITION, heartsToDisplay);
 		this.winImage = new WinImage(WIN_IMAGE_X_POSITION, WIN_IMAGE_Y_POSITION);
 		this.gameOverImage = new GameOverImage(LOSS_SCREEN_X_POSITION, LOSS_SCREEN_Y_POSISITION);
 		this.killCountText = new Text();
-		this.killCountText.setFont(new Font("Arial", 20));
-		killCountText.setFill(Color.BLACK); // Set text color to white
+		Font customFont = Font.loadFont(getClass().getResourceAsStream(Config.FONT_TTF), 20);
+
+		this.killCountText.setFont(customFont);
+		killCountText.setFill(Color.WHITE); // Set text color to white
 		this.killCountText.setX(Config.KILL_COUNT_TEXT_X);
 		this.killCountText.setY(Config.KILL_COUNT_TEXT_Y);
 		this.killCountText.setText("Kills: 0");
@@ -59,7 +63,12 @@ public class LevelView {
 
 	public void updateKillCount(int newKillCount) {
 		this.killCount = newKillCount;
-		this.killCountText.setText("Kills: " + killCount);
+		if(killsToAdvance != 0) {
+			this.killCountText.setText("Kills: " + killCount + " / " + killsToAdvance);
+		}
+		else {
+			this.killCountText.setText("Kills: " + killCount);
+		}
 	}
 	
 	public void removeHearts(int heartsRemaining) {
