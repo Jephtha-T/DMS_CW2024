@@ -24,8 +24,10 @@ public class LevelView {
 	private int killCount;
 	public final Text killCountText;
 	private final int killsToAdvance;
-	
+	private static LevelView instance; // Static instance for global access
+
 	public LevelView(Group mRoot, int heartsToDisplay, int killsToAdvance) {
+		instance = this; // Assign the instance when constructed
 		this.mRoot = mRoot;
 		this.killsToAdvance = killsToAdvance;
 		this.killCount = 0;
@@ -40,7 +42,6 @@ public class LevelView {
 		this.killCountText.setX(Config.KILL_COUNT_TEXT_X);
 		this.killCountText.setY(Config.KILL_COUNT_TEXT_Y);
 		this.killCountText.setText("Kills: 0");
-
 	}
 	
 	public void showHeartDisplay() {
@@ -52,11 +53,13 @@ public class LevelView {
 		winImage.showWinImage();
 	}
 
-	public void showKillCount(){
-		mRoot.getChildren().add(killCountText);
+	public void showKillCount() {
+		mRoot.getChildren().remove(killCountText); // Remove if it exists
+		mRoot.getChildren().add(killCountText);   // Re-add to ensure it's at the top
 		killCountText.setVisible(true);
 	}
-	
+
+
 	public void showGameOverImage() {
 		mRoot.getChildren().add(gameOverImage);
 	}
@@ -76,6 +79,14 @@ public class LevelView {
 		for (int i = 0; i < currentNumberOfHearts - heartsRemaining; i++) {
 			heartDisplay.removeHeart();
 		}
+	}
+
+	public static LevelView getInstance() {
+		return instance;
+	}
+
+	public HeartDisplay getHeartDisplay() {
+		return heartDisplay;
 	}
 
 }

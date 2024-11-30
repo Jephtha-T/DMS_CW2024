@@ -2,7 +2,7 @@ package com.example.demo.Actors;
 
 public abstract class FighterPlane extends ActiveActorDestructible {
 
-	private int health;
+	protected int health;
 
 	protected FighterPlane(String imageName, int imageHeight, double initialXPos, double initialYPos, int health) {
 		super(imageName, imageHeight, initialXPos, initialYPos);

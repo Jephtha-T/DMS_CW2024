@@ -2,15 +2,16 @@ package com.example.demo.Actors;
 
 import com.example.demo.Config;
 
-public class ShieldItem extends Item {
-    private static final String ITEM_NAME = Config.SHIELD_IMAGE;
-    private static final int IMAGE_HEIGHT = Config.SHIELD_SIZE;
+public class MultiShotItem extends Item {
+    private static final String ITEM_NAME = Config.MULTISHOT_IMAGE;
+    private static final int IMAGE_HEIGHT = Config.MULTISHOT_SIZE;
     private static final int HORIZONTAL_VELOCITY = Config.SHIELD_ITEM_HORIZONTAL_VELOCITY;
 
-    public ShieldItem(double xPosition, double yPosition) {
+    public MultiShotItem(double xPosition, double yPosition) {
         super(ITEM_NAME, IMAGE_HEIGHT, xPosition, yPosition);
         this.setVisible(true);
     }
+
 
     @Override
     public void updatePosition() {
@@ -23,7 +24,8 @@ public class ShieldItem extends Item {
     }
 
     @Override
-    public void triggerEffect(UserPlane userPlane) {
-        userPlane.activateShield();
+    public void triggerEffect(UserPlane mUserPlane) {
+        // Enable multi-shot mode in the user plane
+        mUserPlane.enableMultiShot();
     }
 }

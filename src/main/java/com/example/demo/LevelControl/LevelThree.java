@@ -7,7 +7,6 @@ import com.example.demo.Actors.EnemyPlane;
 import com.example.demo.Actors.ShieldItem;
 import com.example.demo.Config;
 
-import static com.example.demo.Config.KILLS_TO_ADVANCE;
 
 public class LevelThree extends LevelParent {
 
@@ -55,7 +54,7 @@ public class LevelThree extends LevelParent {
 
     @Override
     protected int getKillsToAdvance() {
-        return KILLS_TO_ADVANCE;
+        return 0;
     }
 
 

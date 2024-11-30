@@ -1,9 +1,7 @@
 package com.example.demo.LevelControl;
 
-import com.example.demo.Actors.ActiveActorDestructible;
+import com.example.demo.Actors.*;
 import com.example.demo.Config;
-import com.example.demo.Actors.EnemyPlane;
-import com.example.demo.Actors.ShieldItem;
 
 public class LevelOne extends LevelParent {
 	
@@ -11,7 +9,7 @@ public class LevelOne extends LevelParent {
 	private static final String NEXT_LEVEL = "com.example.demo.LevelControl.LevelTwo";
 	private static final int TOTAL_ENEMIES = Config.TOTAL_ENEMIES;
 	private static final int TOTAL_ITEMS = Config.TOTAL_ITEMS;
-	private static final int KILLS_TO_ADVANCE = Config.KILLS_TO_ADVANCE;
+	private static final int KILLS_TO_ADVANCE = Config.KILLS_TO_ADVANCE_LEVELONE;
 	private static final double ENEMY_SPAWN_PROBABILITY = Config.ENEMY_SPAWN_PROBABILITY;
 	private static final double ITEM_SPAWN_PROBABILITY = Config.ITEM_SPAWN_PROBABILITY;
 	private static final int PLAYER_INITIAL_HEALTH = Config.USER_INITIAL_HEALTH;
@@ -42,8 +40,15 @@ public class LevelOne extends LevelParent {
 		int currentNumberOfEnemies = getCurrentNumberOfEnemies();
 		for (int i = 0; i < TOTAL_ENEMIES - currentNumberOfEnemies; i++) {
 			if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
-				double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
-				ActiveActorDestructible newEnemy = new EnemyPlane(getScreenWidth(), newEnemyInitialYPosition);
+				double randomValue = Math.random(); // Random value between 0 and 1
+
+				ActiveActorDestructible newEnemy;
+				if (randomValue < 0.7) { // 70% chance for normal EnemyPlane
+					double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
+					newEnemy = new EnemyPlane(getScreenWidth(), newEnemyInitialYPosition);
+				} else{ // 30% chance for BomberPlane
+					newEnemy = BomberPlane.createInRightHalf(getScreenWidth(), getScreenHeight());
+				}
 				addEnemyUnit(newEnemy);
 			}
 		}

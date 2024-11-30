@@ -25,6 +25,16 @@ public class MainMenuController {
     }
 
     @FXML
+    public void playEndless() {
+        if (stage == null) {
+            throw new IllegalStateException("Stage has not been set for MainMenuController.");
+        }
+
+        LevelManager levelManager = new LevelManager(stage);
+        levelManager.loadLevel(Config.LEVEL_ENDLESS_CLASS);
+    }
+
+    @FXML
     public void exitGame() {
         Platform.exit();
     }

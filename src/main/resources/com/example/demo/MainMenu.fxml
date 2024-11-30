@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -23,17 +25,31 @@
             </image>
         </ImageView>
 
-        <!-- Buttons -->
+        <!-- Buttons Layout -->
         <VBox alignment="CENTER" spacing="10">
-            <Button fx:id="playButton" onAction="#playLevelOne" style="-fx-background-color: transparent;">
-                <graphic>
-                    <ImageView fitWidth="200" fitHeight="100" preserveRatio="true">
-                        <image>
-                            <Image url="@images/Arcade_Btn.png" />
-                        </image>
-                    </ImageView>
-                </graphic>
-            </Button>
+            <!-- Horizontal Box for Arcade and Endless Buttons -->
+            <HBox alignment="CENTER" spacing="20">
+                <Button fx:id="playButton" onAction="#playLevelOne" style="-fx-background-color: transparent;">
+                    <graphic>
+                        <ImageView fitWidth="200" fitHeight="100" preserveRatio="true">
+                            <image>
+                                <Image url="@images/Arcade_Btn.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="endlessButton" onAction="#playEndless" style="-fx-background-color: transparent;">
+                    <graphic>
+                        <ImageView fitWidth="200" fitHeight="100" preserveRatio="true">
+                            <image>
+                                <Image url="@images/Endless_Btn.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </HBox>
+
+            <!-- Centered Exit Button -->
             <Button fx:id="exitButton" onAction="#exitGame" style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitWidth="200" fitHeight="100" preserveRatio="true">
@@ -43,7 +59,6 @@
                     </ImageView>
                 </graphic>
             </Button>
-
         </VBox>
     </VBox>
 </StackPane>

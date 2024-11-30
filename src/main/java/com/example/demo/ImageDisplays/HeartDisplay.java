@@ -45,7 +45,15 @@ public class HeartDisplay {
 		if (!container.getChildren().isEmpty())
 			container.getChildren().remove(INDEX_OF_FIRST_ITEM);
 	}
-	
+
+	public void addHeart() {
+		ImageView heart = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(HEART_IMAGE_NAME)).toExternalForm()));
+		heart.setFitHeight(HEART_HEIGHT);
+		heart.setPreserveRatio(true);
+		container.getChildren().add(heart);
+	}
+
+
 	public HBox getContainer() {
 		return container;
 	}

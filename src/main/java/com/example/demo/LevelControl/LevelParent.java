@@ -133,6 +133,7 @@ public abstract class LevelParent{
 	private void spawnActors() {
 		spawnEnemyUnits();
 		spawnItems();
+
 	}
 
 	private void updateAllActors() {
@@ -147,6 +148,7 @@ public abstract class LevelParent{
 
 	private void refreshUI() {
 		updateKillCount();
+		levelView.showKillCount();
 		updateLevelView();
 	}
 
@@ -196,19 +198,38 @@ public abstract class LevelParent{
 		}
 	}
 
+	private void fireProjectiles(List<ActiveActorDestructible> projectiles) {
+		if (paused || projectiles == null || projectiles.isEmpty()) return;
 
+		for (ActiveActorDestructible projectile : projectiles) {
+			mRoot.getChildren().add(projectile); // Add to the scene
+			userProjectiles.add(projectile);     // Track the projectile
+		}
+
+		soundManager.playSoundEffect("gunshot"); // Play the firing sound
+	}
 
 
 
 	private void fireProjectile() {
 		if (paused) return;
-		ActiveActorDestructible projectile = mUser.fireProjectile();
-		if (projectile != null) {
-			mRoot.getChildren().add(projectile);
-			userProjectiles.add(projectile);
-			soundManager.playSoundEffect("gunshot");
+
+		// Check if multi-shot is enabled
+		if (mUser.isMultiShotEnabled()) {
+			// Use the new method for handling multiple projectiles
+			List<ActiveActorDestructible> projectiles = mUser.fireMultiShot();
+			fireProjectiles(projectiles);
+		} else {
+			// Single projectile firing
+			ActiveActorDestructible projectile = mUser.fireProjectile();
+			if (projectile != null) {
+				mRoot.getChildren().add(projectile); // Add to the scene
+				userProjectiles.add(projectile);     // Track the projectile
+				soundManager.playSoundEffect("gunshot"); // Play the firing sound
+			}
 		}
 	}
+
 
 	private void generateEnemyFire() {
 		enemyUnits.forEach(enemy -> spawnEnemyProjectile(((FighterPlane) enemy).fireProjectile()));

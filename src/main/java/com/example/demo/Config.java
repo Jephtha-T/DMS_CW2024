@@ -42,6 +42,13 @@ public final class Config {
     public static final int USER_PROJECTILE_HEIGHT = 30;
     public static final int USER_PROJECTILE_HORIZONTAL_VELOCITY = 15;
 
+
+    //Item Configuration
+    public static final String MULTISHOT_IMAGE =  "multishot.png";
+    public static final int MULTISHOT_SIZE = 50;
+    public static final String HEALTH_IMAGE =  "heart.png";
+    public static final int HEALTH_SIZE = 50;
+
     //Shield Configuration
     public static final String SHIELD_IMAGE =  "shield.png";
     public static final String SHIELD_EFFECT=  "shield_effect.png";
@@ -49,11 +56,12 @@ public final class Config {
     public static final int MAX_FRAMES_WITH_SHIELD = 100;
     public static final int SHIELD_ITEM_HORIZONTAL_VELOCITY = -10;
 
+    //Explosion Configuration
     public static final String EXPLOSION_SPRITESHEET_PATH = IMAGE_PATH_PREFIX + "SpriteSheets/explosion_spritesheet.png";
     public static final int EXPLOSION_FRAME_WIDTH = 517;
     public static final int EXPLOSION_FRAME_HEIGHT = 517;
     public static final int EXPLOSION_TOTAL_FRAMES = 30;
-    public static final double EXPLOSION_FRAME_DURATION = 0.1; // Seconds per frame
+    public static final double EXPLOSION_FRAME_DURATION = 0.05; // Seconds per frame
 
 
     // Enemy Configuration
@@ -61,6 +69,14 @@ public final class Config {
     public static final int ENEMY_INITIAL_HEALTH = 1;
     public static final int ENEMY_PLANE_HEIGHT = 75;
     public static final double ENEMY_HORIZONTAL_VELOCITY = -6.0;
+    public static final String CHARGE_PLANE_IMAGE  = "chargeplane.png";
+    public static final int CHARGE_INITIAL_HEALTH = 2;
+    public static final int CHARGE_PLANE_HEIGHT = 65;
+    public static final double CHARGE_HORIZONTAL_VELOCITY = -12.0;
+    public static final double BOMBER_VERTICAL_VELOCITY = 3.0;
+    public static final String BOMBER_PLANE_IMAGE  = "bomberplane.png";
+    public static final int BOMBER_INITIAL_HEALTH = 2;
+    public static final int BOMBER_PLANE_HEIGHT = 75;
     public static final double ENEMY_PROJECTILE_X_OFFSET = -100.0;
     public static final double ENEMY_PROJECTILE_Y_OFFSET = 10.0;
     public static final double ENEMY_FIRE_RATE = 0.01;
@@ -82,15 +98,20 @@ public final class Config {
     public static final String ENEMY_PROJECTILE_IMAGE = "enemyfire.png";
     public static final int ENEMY_PROJECTILE_HEIGHT = 30;
     public static final int ENEMY_PROJECTILE_HORIZONTAL_VELOCITY = -10;
+    public static final String BOMB_PROJECTILE_IMAGE = "bomberfire.png";
+    public static final int BOMB_PROJECTILE_HEIGHT = 40;
+    public static final int BOMB_PROJECTILE_HORIZONTAL_VELOCITY = -8;
 
     // Level Configuration
     public static final String LEVEL_ONE_CLASS = "com.example.demo.LevelControl.LevelOne";
+    public static final String LEVEL_ENDLESS_CLASS = "com.example.demo.LevelControl.LevelEndless";
     public static final String LEVEL_TWO_CLASS = "com.example.demo.LevelControl.LevelTwo";
     public static final String LEVEL_ONE_BACKGROUND = IMAGE_PATH_PREFIX + "background1.png";
     public static final String LEVEL_TWO_BACKGROUND = IMAGE_PATH_PREFIX + "background2.png";
     public static final int TOTAL_ENEMIES = 5;
     public static final int TOTAL_ITEMS = 2;
-    public static final int KILLS_TO_ADVANCE = 10;
+    public static final int KILLS_TO_ADVANCE_LEVELONE = 10;
+    public static final int KILLS_TO_ADVANCE_LEVELTWO = 10;
     public static final double ENEMY_SPAWN_PROBABILITY = 0.20;
     public static final double ITEM_SPAWN_PROBABILITY = 0.03;
 

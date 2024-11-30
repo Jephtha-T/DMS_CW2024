@@ -1,7 +1,15 @@
 package com.example.demo.Actors;
 
 import com.example.demo.Config;
+import com.example.demo.ImageDisplays.HeartDisplay;
 import com.example.demo.ImageDisplays.ShieldImage;
+import com.example.demo.LevelControl.LevelView;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserPlane extends FighterPlane {
 
@@ -22,6 +30,7 @@ public class UserPlane extends FighterPlane {
 	private int numberOfKills;
 	private int framesWithShieldActivated;
 	public static final ShieldImage shieldImage = new ShieldImage(INITIAL_X_POSITION, INITIAL_Y_POSITION, IMAGE_HEIGHT);
+	private boolean multiShotEnabled = false;
 
 	public UserPlane(int initialHealth) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth);
@@ -47,11 +56,35 @@ public class UserPlane extends FighterPlane {
 		updatePosition();
 		updateShield();
 	}
-	
+
 	@Override
 	public ActiveActorDestructible fireProjectile() {
+		if (multiShotEnabled) {
+			double spacing = 20.0; // Example spacing
+			double yPos = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
+			new UserProjectile(PROJECTILE_X_POSITION, yPos - spacing);
+			new UserProjectile(PROJECTILE_X_POSITION, yPos);
+			new UserProjectile(PROJECTILE_X_POSITION, yPos + spacing);
+			return null; // Return null since we spawn multiple projectiles
+		}
 		return new UserProjectile(PROJECTILE_X_POSITION, getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
 	}
+
+	public List<ActiveActorDestructible> fireMultiShot() {
+		List<ActiveActorDestructible> projectiles = new ArrayList<>();
+		if (multiShotEnabled) {
+			double spacing = 20.0; // Example spacing
+			double yPos = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
+			projectiles.add(new UserProjectile(PROJECTILE_X_POSITION, yPos - spacing));
+			projectiles.add(new UserProjectile(PROJECTILE_X_POSITION, yPos));
+			projectiles.add(new UserProjectile(PROJECTILE_X_POSITION, yPos + spacing));
+		} else {
+			// Fall back to the single projectile behavior
+			projectiles.add(fireProjectile());
+		}
+		return projectiles;
+	}
+
 
 	private void updateShield() {
 
@@ -112,5 +145,34 @@ public class UserPlane extends FighterPlane {
 
 	public boolean isShielded() {
 		return isShielded;
+	}
+
+	public void restoreHealth(int amount) {
+		int newHealth = Math.min(this.health + amount, Config.USER_INITIAL_HEALTH); // Ensure health does not exceed max
+		int healthToAdd = newHealth - this.health; // Calculate how many hearts to add
+		this.health = newHealth;
+
+		// Access HeartDisplay from LevelView instance
+		HeartDisplay heartDisplay = LevelView.getInstance().getHeartDisplay();
+		if (healthToAdd > 0) {
+			for (int i = 0; i < healthToAdd; i++) {
+				heartDisplay.addHeart();
+			}
+		}
+	}
+
+	public void enableMultiShot() {
+		this.multiShotEnabled = true;
+
+		// Schedule deactivation after 10 seconds
+		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(10), e -> {
+			this.multiShotEnabled = false;
+		}));
+		timeline.setCycleCount(1);
+		timeline.play();
+	}
+
+	public boolean isMultiShotEnabled() {
+		return  multiShotEnabled;
 	}
 }
