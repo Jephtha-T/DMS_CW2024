@@ -234,14 +234,16 @@ public abstract class LevelParent {
 
     /**
      * Handles key pressed events.
-     * Processes user input for moving the user plane and firing projectiles.
+     * Processes user input for moving the user plane, firing projectiles, pausing & returning to main menu after the game is over
      *
      * @param e the key event
      */
     private void handleKeyPressed(KeyEvent e) {
-        if (!gameActive) return; // Ignore inputs if the game is not active
-
         KeyCode kc = e.getCode();
+        if (!gameActive && kc == KeyCode.ENTER) {
+            LevelManager.getInstance().loadMainMenu();
+            return;
+        }
         if (kc == KeyCode.ESCAPE) {
             togglePause();
             return;

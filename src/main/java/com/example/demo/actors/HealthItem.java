@@ -15,7 +15,7 @@ public class HealthItem extends Item {
      * @param yPosition the initial Y position of the health item
      */
     public HealthItem(double xPosition, double yPosition) {
-        super(Config.HEALTH_IMAGE, Config.HEALTH_SIZE, xPosition, yPosition, Config.ITEM_HORIZONTAL_VELOCITY);
+        super(Config.HEALTH_ITEM_IMAGE, Config.HEALTH_SIZE, xPosition, yPosition, Config.ITEM_HORIZONTAL_VELOCITY);
     }
 
     /**

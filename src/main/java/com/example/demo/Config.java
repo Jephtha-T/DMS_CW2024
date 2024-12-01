@@ -48,7 +48,8 @@ public final class Config {
     public static final int ITEM_HORIZONTAL_VELOCITY = -10;
     public static final String MULTISHOT_IMAGE =  "multishot.png";
     public static final int MULTISHOT_SIZE = 50;
-    public static final String HEALTH_IMAGE =  IMAGE_PATH_PREFIX + "heart.png";
+    public static final String HEART_IMAGE =  IMAGE_PATH_PREFIX + "heart.png";
+    public static final String HEALTH_ITEM_IMAGE = "health.png";
     public static final int HEALTH_SIZE = 50;
     public static final String SHIELD_IMAGE =  "shield.png";
     public static final int SHIELD_SIZE = 50;
@@ -123,14 +124,17 @@ public final class Config {
     public static final int HEART_DISPLAY_X = 20;
     public static final int HEART_DISPLAY_Y = 20;
     public static final String GAME_OVER_IMAGE = IMAGE_PATH_PREFIX + "gameover.png";
-    public static final int GAME_OVER_IMAGE_HEIGHT = 500;
-    public static final int GAME_OVER_IMAGE_WIDTH = 600;
+    public static final int GAME_OVER_IMAGE_HEIGHT = 750;
+    public static final int GAME_OVER_IMAGE_WIDTH = 1300;
+    public static final int GAME_OVER_X_POSITION = 0;
+    public static final int GAME_OVER_Y_POSITION = 0;
     public static final double KILL_COUNT_TEXT_X = SCREEN_WIDTH - 150.0;
     public static final double KILL_COUNT_TEXT_Y = 50.0;
     public static final String WIN_IMAGE = IMAGE_PATH_PREFIX + "youwin.png";
-    public static final int WIN_IMAGE_HEIGHT = 500;
-    public static final int WIN_IMAGE_WIDTH = 600;
-
+    public static final int WIN_IMAGE_HEIGHT = 750;
+    public static final int WIN_IMAGE_WIDTH = 1300;
+    public static final int WIN_IMAGE_X_POSITION = 0;
+    public static final int WIN_IMAGE_Y_POSITION = 0;
 
 
     private Config() {

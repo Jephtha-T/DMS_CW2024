@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class HeartDisplay {
 
-	private static final String HEART_IMAGE_NAME = Config.HEALTH_IMAGE;
+	private static final String HEART_IMAGE_NAME = Config.HEART_IMAGE;
 	private static final int HEART_HEIGHT = Config.HEART_HEIGHT;
 	private static final int INDEX_OF_FIRST_ITEM = 0;
 	private HBox container;

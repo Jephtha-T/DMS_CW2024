@@ -174,6 +174,7 @@ ActiveActor
 
 ActiveActorDestructible (This is not merged with ActiveActor for maintainability in case any new features include non-destructible objects)
 - setDestroyed method removed, integrated directly into destroy() to set isDestroyed to true when called
+- takedamage() made into abstract to ensure subclasses properly handle the method
 
 Boss
 - shieldShouldBeActivated & shieldExhausted removed and instead integrated directly into updateShield with a new else if loop system
