@@ -1,17 +1,27 @@
 package com.example.demo.controller;
 
 import com.example.demo.Config;
-import com.example.demo.LevelControl.LevelManager;
+import com.example.demo.levels.LevelManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
 public class MainMenuController {
 
-    public static Stage stage;
+    private static Stage stage; // Make private and static to limit access
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
+    // Static initializer for setting the stage
+    public static void initialize(Stage primaryStage) {
+        if (stage == null) {
+            stage = primaryStage; // Set only once
+        } else {
+            throw new IllegalStateException("Stage has already been initialized.");
+        }
+    }
+
+    // Provide an accessor if needed
+    public static Stage getStage() {
+        return stage;
     }
 
     @FXML

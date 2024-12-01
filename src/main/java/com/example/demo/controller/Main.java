@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.Config;
-import com.example.demo.LevelControl.LevelManager;
+import com.example.demo.levels.LevelManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,8 +26,8 @@ public class Main extends Application {
 		Parent root = loader.load();
 
 		// Set up the controller
-		MainMenuController controller = loader.getController();
-		controller.setStage(stage);
+
+		MainMenuController.initialize(stage);
 
 		// Set up the scene
 		Scene scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -10,19 +9,15 @@
 
 <StackPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.MainMenuController">
     <!-- Background Image -->
-    <ImageView fx:id="backgroundImage" fitHeight="750" fitWidth="1300" preserveRatio="false">
-        <image>
-            <Image url="@images/MainMenuBG .png" />
-        </image>
+    <ImageView fx:id="backgroundImage" fitHeight="750" fitWidth="1300">
+        <Image url="@images/MainMenuBG .png"/>
     </ImageView>
 
     <!-- Main Layout -->
     <VBox alignment="TOP_CENTER" spacing="20">
         <!-- Icon Image -->
         <ImageView fx:id="iconImage" fitHeight="526.0" fitWidth="728.0" preserveRatio="true">
-            <image>
-                <Image url="@images/Title.png" />
-            </image>
+            <Image url="@images/Title.png"/>
         </ImageView>
 
         <!-- Buttons Layout -->
@@ -32,18 +27,14 @@
                 <Button fx:id="playButton" onAction="#playLevelOne" style="-fx-background-color: transparent;">
                     <graphic>
                         <ImageView fitWidth="200" fitHeight="100" preserveRatio="true">
-                            <image>
-                                <Image url="@images/Arcade_Btn.png" />
-                            </image>
+                            <Image url="@images/Arcade_Btn.png"/>
                         </ImageView>
                     </graphic>
                 </Button>
                 <Button fx:id="endlessButton" onAction="#playEndless" style="-fx-background-color: transparent;">
                     <graphic>
                         <ImageView fitWidth="200" fitHeight="100" preserveRatio="true">
-                            <image>
-                                <Image url="@images/Endless_Btn.png" />
-                            </image>
+                            <Image url="@images/Endless_Btn.png"/>
                         </ImageView>
                     </graphic>
                 </Button>
@@ -53,9 +44,7 @@
             <Button fx:id="exitButton" onAction="#exitGame" style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitWidth="200" fitHeight="100" preserveRatio="true">
-                        <image>
-                            <Image url="@images/Exit_Btn.png" />
-                        </image>
+                        <Image url="@images/Exit_Btn.png"/>
                     </ImageView>
                 </graphic>
             </Button>

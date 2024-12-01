@@ -20,10 +20,6 @@ public class MyObservable {
 		hasChanged = false;
 	}
 
-	public boolean hasChanged() {
-		return hasChanged;
-	}
-
 	public void notifyObservers(Object arg) {
 		if (hasChanged) {
 			for (MyObserver observer : observers) {

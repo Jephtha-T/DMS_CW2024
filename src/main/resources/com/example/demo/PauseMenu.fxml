@@ -4,13 +4,10 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.geometry.Insets?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.example.demo.controller.PauseMenuController" alignment="CENTER">
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.example.demo.controller.PauseMenuController">
     <!-- Background Image -->
     <ImageView fitWidth="400" preserveRatio="true" StackPane.alignment="CENTER">
-        <image>
-            <Image url="@images/PauseBG.png" />
-        </image>
+        <Image url="@images/PauseBG.png"/>
     </ImageView>
 
     <!-- Main Buttons in Center -->
@@ -19,9 +16,7 @@
         <Button onAction="#resumeGame" style="-fx-background-color: transparent; -fx-padding: 0;">
             <graphic>
                 <ImageView fitWidth="140" preserveRatio="true">
-                    <image>
-                        <Image url="@images/Resume_Button.png" />
-                    </image>
+                    <Image url="@images/Resume_Button.png"/>
                 </ImageView>
             </graphic>
         </Button>
@@ -30,9 +25,7 @@
         <Button onAction="#retryLevel" style="-fx-background-color: transparent; -fx-padding: 0;">
             <graphic>
                 <ImageView fitWidth="140" preserveRatio="true">
-                    <image>
-                        <Image url="@images/Retry_Button.png" />
-                    </image>
+                    <Image url="@images/Retry_Button.png"/>
                 </ImageView>
             </graphic>
         </Button>
@@ -41,9 +34,7 @@
         <Button onAction="#goToMainMenu" style="-fx-background-color: transparent; -fx-padding: 0;">
             <graphic>
                 <ImageView fitWidth="140" preserveRatio="true">
-                    <image>
-                        <Image url="@images/Main_Button.png" />
-                    </image>
+                    <Image url="@images/Main_Button.png"/>
                 </ImageView>
             </graphic>
         </Button>
@@ -53,9 +44,7 @@
     <Button fx:id="exitButton" onAction="#exitGame" style="-fx-background-color: transparent; -fx-padding: 0;" StackPane.alignment="BOTTOM_RIGHT">
         <graphic>
             <ImageView fitWidth="130" preserveRatio="true">
-                <image>
-                    <Image url="@images/Exit_Button.png" />
-                </image>
+                <Image url="@images/Exit_Button.png"/>
             </ImageView>
         </graphic>
     </Button>

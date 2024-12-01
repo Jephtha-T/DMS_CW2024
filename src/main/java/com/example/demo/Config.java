@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import java.util.Objects;
-
 public final class Config {
 
     // General Game Configuration
@@ -16,8 +14,9 @@ public final class Config {
     public static final String FONT_TTF = "/com/example/demo/RetroGaming.ttf";
 
     // Image Paths
-    public static final String IMAGE_PATH_PREFIX = "/com/example/demo/images/";
-    public static final String AUDIO_PATH_PREFIX = "/com/example/demo/Audio/";
+    public static final String IMAGE_PATH_PREFIX = System.getProperty("image.path.prefix", "/com/example/demo/images/");
+    public static final String AUDIO_PATH_PREFIX = System.getProperty("audio.path.prefix", "/com/example/demo/Audio/");
+
 
     //Audio
     public static final String EXPLOSION_AUDIO = AUDIO_PATH_PREFIX + "ArcadeExplosion.wav";
@@ -103,9 +102,10 @@ public final class Config {
     public static final int BOMB_PROJECTILE_HORIZONTAL_VELOCITY = -8;
 
     // Level Configuration
-    public static final String LEVEL_ONE_CLASS = "com.example.demo.LevelControl.LevelOne";
-    public static final String LEVEL_ENDLESS_CLASS = "com.example.demo.LevelControl.LevelEndless";
-    public static final String LEVEL_TWO_CLASS = "com.example.demo.LevelControl.LevelTwo";
+    public static final String LEVEL_ONE_CLASS = "com.example.demo.levels.LevelOne";
+    public static final String LEVEL_TWO_CLASS = "com.example.demo.levels.LevelTwo";
+    public static final String LEVEL_THREE_CLASS = "com.example.demo.levels.LevelThree";
+    public static final String LEVEL_ENDLESS_CLASS = "com.example.demo.levels.LevelEndless";
     public static final String LEVEL_ONE_BACKGROUND = IMAGE_PATH_PREFIX + "background1.png";
     public static final String LEVEL_TWO_BACKGROUND = IMAGE_PATH_PREFIX + "background2.png";
     public static final int TOTAL_ENEMIES = 5;
@@ -116,7 +116,7 @@ public final class Config {
     public static final double ITEM_SPAWN_PROBABILITY = 0.03;
 
     // UI Constants
-    public static final String HEART_IMAGE_NAME = IMAGE_PATH_PREFIX + "heart.png";
+
     public static final int HEART_HEIGHT = 50;
     public static final int HEART_DISPLAY_X = 20;
     public static final int HEART_DISPLAY_Y = 20;

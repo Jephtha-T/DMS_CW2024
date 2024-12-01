@@ -1,24 +1,22 @@
 package com.example.demo.controller;
 
-import com.example.demo.LevelControl.LevelManager;
-import com.example.demo.LevelControl.LevelParent;
+import com.example.demo.levels.LevelManager;
+import com.example.demo.levels.LevelParent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import java.util.logging.Logger;
 
 public class PauseMenuController {
 
+    private static final Logger LOGGER = Logger.getLogger(PauseMenuController.class.getName()); // Logger instance
+
     private Runnable resumeCallback; // Callback to resume the game
     private LevelParent levelParent;
-    private LevelManager levelManager;
     @FXML
     private Button exitButton;
-
-    public void setLevelManager(LevelManager levelManager) {
-        this.levelManager = levelManager;
-    }
 
     public void setLevelParent(LevelParent levelParent) {
         this.levelParent = levelParent;
@@ -43,12 +41,14 @@ public class PauseMenuController {
     private void resumeGame(ActionEvent event) {
         if (resumeCallback != null) {
             resumeCallback.run(); // Call the resume logic
+        } else {
+            LOGGER.warning("Resume callback is null. Unable to resume the game.");
         }
     }
 
     @FXML
     private void retryLevel(ActionEvent event) {
-        System.out.println("Retrying level...");
+        LOGGER.info("Retrying level...");
         if (resumeCallback != null) {
             resumeCallback.run(); // Ensure the game is resumed before retrying
         }
@@ -56,22 +56,19 @@ public class PauseMenuController {
             levelParent.stopGame();
             LevelManager.getInstance().loadLevel(levelParent.getClass().getName()); // Reload the current level
         } else {
-            System.err.println("Error: levelParent is null. Retry level failed.");
+            LOGGER.severe("Error: levelParent is null. Retry level failed.");
         }
     }
 
-
     @FXML
     private void goToMainMenu(ActionEvent event) {
-        System.out.println("Returning to main menu...");
+        LOGGER.info("Returning to main menu...");
         LevelManager.getInstance().loadMainMenu();
     }
 
-
-
     @FXML
     private void exitGame(ActionEvent event) {
-        System.out.println("Exiting game...");
+        LOGGER.info("Exiting game...");
         System.exit(0);
     }
 }
