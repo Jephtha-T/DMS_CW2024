@@ -33,6 +33,7 @@ public final class Config {
     public static final double USER_SHIELD_Y_OFFSET = 0.0;
     public static final int USERPLANE_HEIGHT = 75;
     public static final int USERPLANE_VERTICAL_VELOCITY = 8;
+    public static final int FIRE_COOLDOWN = 200;
 
     //UserProjectile Configuration
     public static final double USER_PROJECTILE_X_OFFSET = 110.0;
@@ -43,17 +44,17 @@ public final class Config {
 
 
     //Item Configuration
+    public static final int ITEM_HORIZONTAL_VELOCITY = -10;
     public static final String MULTISHOT_IMAGE =  "multishot.png";
     public static final int MULTISHOT_SIZE = 50;
-    public static final String HEALTH_IMAGE =  "heart.png";
+    public static final String HEALTH_IMAGE =  IMAGE_PATH_PREFIX + "heart.png";
     public static final int HEALTH_SIZE = 50;
+    public static final String SHIELD_IMAGE =  "shield.png";
+    public static final int SHIELD_SIZE = 50;
 
     //Shield Configuration
-    public static final String SHIELD_IMAGE =  "shield.png";
     public static final String SHIELD_EFFECT=  "shield_effect.png";
-    public static final int SHIELD_SIZE = 50;
     public static final int MAX_FRAMES_WITH_SHIELD = 100;
-    public static final int SHIELD_ITEM_HORIZONTAL_VELOCITY = -10;
 
     //Explosion Configuration
     public static final String EXPLOSION_SPRITESHEET_PATH = IMAGE_PATH_PREFIX + "SpriteSheets/explosion_spritesheet.png";

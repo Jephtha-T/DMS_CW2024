@@ -102,6 +102,10 @@ PauseMenuController
 PauseMenuManager
 - Manages calling all methods for when the game is paused
 
+BaseLevel
+- Handles Base methods/logic that applies to each levels
+- has methods to spawn every actor in a level
+
 
 # Modified Java Classes:
 List the Java classes you modified from the provided code
@@ -161,6 +165,7 @@ UserPlane
 - truedamage now added for when enemy penetrates defense line even when plane is shielded
 - Multishot flag added alosng with fireMultishot() method to shoot multiple projectiles
 - RestoreHealth() Method added for when health item is picked up
+- Added Cooldown for projectile fire so that user cannot simply spam fire
 
 ActiveActor
 - getClass().getResource(IMAGE_LOCATION + imageName).toExternalForm() changed to (Objects.requireNonNull(getClass().getResource(IMAGE_LOCATION + imageName)).toExternalForm()) to prevent null pointer exception
@@ -181,6 +186,7 @@ Destructible
 LevelOne
 - SpawnItems Method added for all items
 - check if game over now properly transitions to next level when killcount reaches limit
+- Now extends BaseLevel first instead of LevelParent directly (For modularity and reduce code duplication)
 
 LevelViewLevelTwo
 - Entirely Removed, instead moved to Boss class directly & addition to root done in LevelTwo Class
@@ -188,6 +194,7 @@ LevelViewLevelTwo
 LevelTwo
 - SpawnEnemyUnits() now also spawns in the shield image so that it is in root and can be called properly
 - !!! LevelTwo is now more similar to LevelOne except it introduces new enemies and items (Boss moved to LevelThree)
+- Now extends BaseLevel first instead of LevelParent directly (For modularity and reduce code duplication)
 
 
 

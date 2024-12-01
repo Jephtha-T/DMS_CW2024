@@ -9,6 +9,7 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class UserPlane extends FighterPlane {
@@ -31,6 +32,9 @@ public class UserPlane extends FighterPlane {
 	private int framesWithShieldActivated;
 	public static final ShieldImage shieldImage = new ShieldImage(INITIAL_X_POSITION, INITIAL_Y_POSITION, IMAGE_HEIGHT);
 	private boolean multiShotEnabled = false;
+	private long lastFireTime = 0; // Track the last time the user fired a projectile
+	private static final long FIRE_COOLDOWN = Config.FIRE_COOLDOWN;
+
 
 	public UserPlane(int initialHealth) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth);
@@ -59,30 +63,32 @@ public class UserPlane extends FighterPlane {
 
 	@Override
 	public ActiveActorDestructible fireProjectile() {
-		if (multiShotEnabled) {
-			double spacing = 20.0; // Example spacing
-			double yPos = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
-			new UserProjectile(PROJECTILE_X_POSITION, yPos - spacing);
-			new UserProjectile(PROJECTILE_X_POSITION, yPos);
-			new UserProjectile(PROJECTILE_X_POSITION, yPos + spacing);
-			return null; // Return null since we spawn multiple projectiles
+		long currentTime = System.currentTimeMillis();
+		if (currentTime - lastFireTime >= FIRE_COOLDOWN) {
+			lastFireTime = currentTime;
+			return new UserProjectile(PROJECTILE_X_POSITION, getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
 		}
-		return new UserProjectile(PROJECTILE_X_POSITION, getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
+		return null;
 	}
 
 	public List<ActiveActorDestructible> fireMultiShot() {
 		List<ActiveActorDestructible> projectiles = new ArrayList<>();
-		if (multiShotEnabled) {
-			double spacing = 20.0; // Example spacing
-			double yPos = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
-			projectiles.add(new UserProjectile(PROJECTILE_X_POSITION, yPos - spacing));
-			projectiles.add(new UserProjectile(PROJECTILE_X_POSITION, yPos));
-			projectiles.add(new UserProjectile(PROJECTILE_X_POSITION, yPos + spacing));
-		} else {
-			// Fall back to the single projectile behavior
-			projectiles.add(fireProjectile());
+		long currentTime = System.currentTimeMillis();
+		if (currentTime - lastFireTime >= FIRE_COOLDOWN) {
+			lastFireTime = currentTime;
+			if (multiShotEnabled) {
+				double spacing = 20.0; // Example spacing
+				double yPos = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
+				projectiles.add(new UserProjectile(PROJECTILE_X_POSITION, yPos - spacing));
+				projectiles.add(new UserProjectile(PROJECTILE_X_POSITION, yPos));
+				projectiles.add(new UserProjectile(PROJECTILE_X_POSITION, yPos + spacing));
+			} else {
+				// Fall back to the single projectile behavior
+				projectiles.add(fireProjectile());
+			}
+			return projectiles;
 		}
-		return projectiles;
+		return Collections.emptyList();
 	}
 
 

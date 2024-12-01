@@ -1,18 +1,15 @@
 package com.example.demo.levels;
 
-
-import com.example.demo.actors.Boss;
 import com.example.demo.Config;
+import com.example.demo.actors.Boss;
 
-
-public class LevelThree extends LevelParent {
+public class LevelThree extends BaseLevel {
 
     private static final String BACKGROUND_IMAGE_NAME = Config.LEVEL_TWO_BACKGROUND;
-    private static final int PLAYER_INITIAL_HEALTH = Config.USER_INITIAL_HEALTH;
     private final Boss boss;
 
     public LevelThree(double screenHeight, double screenWidth) {
-        super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
+        super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth);
         boss = new Boss();
     }
 
@@ -25,8 +22,7 @@ public class LevelThree extends LevelParent {
     protected void checkIfGameOver() {
         if (userIsDestroyed()) {
             loseGame();
-        }
-        else if (boss.isDestroyed()) {
+        } else if (boss.isDestroyed()) {
             winGame();
         }
     }
@@ -41,18 +37,16 @@ public class LevelThree extends LevelParent {
 
     @Override
     protected void spawnItems() {
-        //No Items spawned in boss fight
+        spawnShieldItem();
     }
 
     @Override
-    protected LevelView instantiateLevelView() {
-        return new LevelView(getRoot(), PLAYER_INITIAL_HEALTH, getKillsToAdvance());
+    protected String getNextLevel() {
+        return null; // No next level
     }
 
     @Override
     protected int getKillsToAdvance() {
-        return 0;
+        return 0; // No kill target
     }
-
-
 }

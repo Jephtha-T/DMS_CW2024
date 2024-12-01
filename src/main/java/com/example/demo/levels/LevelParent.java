@@ -109,7 +109,7 @@ public abstract class LevelParent{
 
 
 	private void updateScene() {
-		spawnActors();
+        spawnEnemiesAndItems();
 		updateAllActors();
 
 		// Accumulate destroyed enemies
@@ -129,11 +129,7 @@ public abstract class LevelParent{
 		checkIfGameOver();
 	}
 
-	private void spawnActors() {
-		spawnEnemyUnits();
-		spawnItems();
-
-	}
+    protected abstract void spawnEnemiesAndItems();
 
 	private void updateAllActors() {
 		updateActors();
