@@ -8,14 +8,24 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Main class for the application, extending JavaFX Application.
+ * This class sets up the main stage and loads the initial FXML file.
+ */
 public class Main extends Application {
 
-	private static final int SCREEN_WIDTH = 1300;
-	private static final int SCREEN_HEIGHT = 750;
-	private static final String TITLE = "Sky Battle";
+	private static final int SCREEN_WIDTH = Config.SCREEN_WIDTH;
+	private static final int SCREEN_HEIGHT = Config.SCREEN_HEIGHT;
+	private static final String TITLE = Config.TITLE;
 	private static final String MAIN_MENU_FXML = Config.MAIN_MENU_FXML;
 
-
+	/**
+	 * Starts the JavaFX application.
+	 * Initializes the LevelManager, loads the main menu FXML, and sets up the main stage.
+	 *
+	 * @param stage the primary stage for this application
+	 * @throws Exception if the FXML file cannot be loaded
+	 */
 	@Override
 	public void start(Stage stage) throws Exception {
 		// Initialize the singleton LevelManager
@@ -24,8 +34,6 @@ public class Main extends Application {
 		// Load the FXML file
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_MENU_FXML));
 		Parent root = loader.load();
-
-		// Set up the controller
 
 		MainMenuController.initialize(stage);
 
@@ -37,6 +45,11 @@ public class Main extends Application {
 		stage.show();
 	}
 
+	/**
+	 * The main method for launching the JavaFX application.
+	 *
+	 * @param args the command line arguments
+	 */
 	public static void main(String[] args) {
 		launch();
 	}

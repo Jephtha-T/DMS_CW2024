@@ -3,6 +3,7 @@ package com.example.demo;
 public final class Config {
 
     // General Game Configuration
+    public static final String TITLE = "Sky Battle";
     public static final int SCREEN_WIDTH = 1300;
     public static final int SCREEN_HEIGHT = 750;
     public static final int MILLISECOND_DELAY = 50;

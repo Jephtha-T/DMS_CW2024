@@ -11,6 +11,10 @@ import javafx.util.Duration;
 
 import java.util.Objects;
 
+/**
+ * Handles sprite sheet animations for game elements.
+ * Preloads the sprite sheet and manages the animation frames.
+ */
 public class SpriteSheetAnimation {
     private static final Image SPRITE_SHEET_CACHE;
 
@@ -25,7 +29,16 @@ public class SpriteSheetAnimation {
     private final int columns;
     private final Timeline timeline;
 
-    public SpriteSheetAnimation(String spritesheetPath, int frameWidth, int frameHeight, int totalFrames, double frameDuration) {
+    /**
+     * Constructor for SpriteSheetAnimation.
+     * Initializes the animation with the specified parameters.
+     *
+     * @param frameWidth the width of each frame in the sprite sheet
+     * @param frameHeight the height of each frame in the sprite sheet
+     * @param totalFrames the total number of frames in the animation
+     * @param frameDuration the duration of each frame in seconds
+     */
+    public SpriteSheetAnimation(int frameWidth, int frameHeight, int totalFrames, double frameDuration) {
         this.imageView = new ImageView(SPRITE_SHEET_CACHE);
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
@@ -40,6 +53,10 @@ public class SpriteSheetAnimation {
 
     private int currentFrame = 0;
 
+    /**
+     * Updates the current frame of the animation.
+     * Calculates the x and y coordinates of the frame in the sprite sheet.
+     */
     private void updateFrame() {
         int x = (currentFrame % columns) * frameWidth;
         int y = (currentFrame / columns) * frameHeight;
@@ -47,6 +64,11 @@ public class SpriteSheetAnimation {
         currentFrame++;
     }
 
+    /**
+     * Plays the animation once and removes the image view from the root group after the animation finishes.
+     *
+     * @param root the root group to which the image view is added
+     */
     public void playOnceAndRemoveAfter(Group root) {
         // Check if the ImageView is already in the root before adding
         if (!root.getChildren().contains(imageView)) {
@@ -56,11 +78,21 @@ public class SpriteSheetAnimation {
         timeline.play();
     }
 
+    /**
+     * Stops the animation and removes the image view from the root group.
+     *
+     * @param root the root group from which the image view is removed
+     */
     public void stopAndRemove(Group root) {
         timeline.stop();
         root.getChildren().remove(imageView);
     }
 
+    /**
+     * Gets the image view used for the animation.
+     *
+     * @return the image view
+     */
     public ImageView getImageView() {
         return imageView;
     }

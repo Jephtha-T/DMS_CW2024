@@ -9,18 +9,33 @@ import javafx.scene.Group;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Manages the pause menu in the game.
+ * Handles the initialization, display, and hiding of the pause menu.
+ */
 public class PauseMenuManager {
 
-    private final Group root;
-    private final LevelParent levelParent;
-    private Parent pauseMenu;
+    private final Group root; // The root group for adding the pause menu
+    private final LevelParent levelParent; // Reference to the parent level
+    private Parent pauseMenu; // The pause menu UI element
 
+    /**
+     * Constructor for PauseMenuManager.
+     * Initializes the pause menu manager with the specified root group and parent level.
+     *
+     * @param root the root group for adding the pause menu
+     * @param levelParent the parent level
+     */
     public PauseMenuManager(Group root, LevelParent levelParent) {
         this.root = root;
         this.levelParent = levelParent;
         initializePauseMenu();
     }
 
+    /**
+     * Initializes the pause menu.
+     * Loads the pause menu FXML and sets up the controller.
+     */
     private void initializePauseMenu() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(Config.PAUSE_MENU_FXML));
@@ -38,6 +53,11 @@ public class PauseMenuManager {
         }
     }
 
+    /**
+     * Shows the pause menu.
+     * Adds the pause menu to the root group if not already added and makes it visible.
+     * Positions the pause menu in the center of the screen.
+     */
     public void showPauseMenu() {
         if (!root.getChildren().contains(pauseMenu)) {
             root.getChildren().add(pauseMenu);
@@ -54,12 +74,11 @@ public class PauseMenuManager {
         pauseMenu.setLayoutY(centerY);
     }
 
-
-
+    /**
+     * Hides the pause menu.
+     * Makes the pause menu invisible.
+     */
     public void hidePauseMenu() {
         pauseMenu.setVisible(false);
     }
-
-
-
 }
