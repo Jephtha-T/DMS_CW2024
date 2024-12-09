@@ -21,6 +21,12 @@ public class LevelEndless extends BaseLevel {
         super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth);
     }
 
+    @Override
+    protected boolean shouldShowHelpImage() {
+        return true; // Show HelpImage for LevelOne
+    }
+
+
     /**
      * Spawns enemy units specific to the endless level.
      * This includes enemy planes, bomber planes, and charge planes.

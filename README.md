@@ -15,29 +15,47 @@ implemented and are functioning as expected. Provide a brief description of each
 - Replay button
 - Fixed Hitboxes (Blank Spaces removed in resource images to reflect hitbox properly)
 - Impact VFX
+- Limited User Fire Rate
 - Scoreboard  (Clearly Shows kill per level and kills needed to go to next level)
-- Items   (Items to be picked up by Userplane for power ups)
+- Items (Items to be picked up by Userplane for power ups)
   - ShieldItem (Invulnerability Shield for User from projectiles)
   - Multishot (Shoots 3 projectiles instead of one)
   - Health (Restore 1 heart)
 - Music & SFX
+  - Background Music
+  - Win Sound Effect
+  - Explosion Sound Effect
+  - Projectile Fire Sound Effect
+  - Game Over Sound Effect
+  - Level Start Sound Effect
 - Different Enemies
   - Bomber (Moves vertically with slower projectiles)
   - Charger (No projectiles, instead rushes horizontally)
 - More Levels
   - Endless Mode
   - Level two before boss level
+- Tutorial Screen
 
 # Implemented but Not Working Properly:
 List any features that have been
 implemented but are not working correctly. Explain the issues you encountered,
 and if possible, the steps you took to address them.
 
+Shield & Multishot Item
+- Both items were meant to have a indicator on screen for it's remaining duration
+- Due to the general structure of the GameLoop & time constraints, adding more animations on screen became difficult
+- Therefore while the items are fully functional, their indicators are not
+
 
 # Features Not Implemented:
 Identify any features that you were unable to
 implement and provide a clear explanation for why they were left out.
 - Walls/ Obstacles
+  - Lack of Time and constant problems with pre-existing code caused this feature to be dropped
+- Dialogue & Animations during & between levels
+  - Lack of time caused this feature to be dropped as it is not necessary for the games main functionality and is instead purely cosmetic
+- Game Window Resizing
+  - Lack of Time and Over-complexity of introducing this function led to this feature being dropped after many attempts at implementing it
 
 # New Java Classes:
 Enumerate any new Java classes that you introduced for the
@@ -52,7 +70,7 @@ LevelManager
 - Used as having a dedicated class for management is much more efficient if main menus, more levels or pause menus are added
 
 CollisionManager
-- Handles all collisions between items, planes and projectiles, made to reduce complexity of levelparent
+- Handles all collisions between items, planes and projectiles, made to reduce complexity of LevelParent
 
 GameLoop
 - Handles actual Game loop and timeline, made to reduce complexity of LevelParent
@@ -64,10 +82,13 @@ Config
 - Class for data storage to keep all variables in a centralized file for ease of access
 
 ShieldItem
+- Item for User to pick up to gain Invulnerability to damage for a period of time
 
 Health Item
+- Item for User to pick up to gain back 1 point of health
 
 MultiShotItem
+- Item for User to pick up to fire 3 projectiles instead of 1 for a period of time
 
 Main Menu Controller
 - New controller for main menu that loads when main is run, buttons to play and exit
@@ -106,6 +127,9 @@ BaseLevel
 - Handles Base methods/logic that applies to each levels
 - has methods to spawn every actor in a level
 
+HelpImage
+- Shows tutorial Screen for Level One & Endless
+
 
 # Modified Java Classes:
 List the Java classes you modified from the provided code
@@ -135,7 +159,7 @@ LevelParent
 - LevelView made final
 - getClass().getResource(backgroundImageName).toExternalForm() in this.background replaced with Objects.requireNonNull((getClass().getResource(backgroundImageName)).toExternalForm()) to prevent null pointer exception
 - friendly & enemy units, user & enemy projectiles changed to be an array list
-- InitializeScene, removed initializeBackground(); , initializeFriendlyUnits(); instead moved to LevelParent Method
+- InitializeScene, removed initializeBackground(); , initializeFriendlyUnits(); instead moved to LevelParent Method, now shows help image if needed and handles startgame() call instead of level manager
 - InitializeBackground method removed handleKeyPressed, handleKeyReleased instead moved as new methods each
 - SetChanged, removed as observer interface is available and can be notified directly
 - fireProjectile method added if(projectile != null) clause similar to spawnEnemyProjectile method
@@ -154,6 +178,7 @@ LevelParent
 - Added Escape key in HandleKeyPressed() Method to pause
 - fireprojectiles() Now can handle when user has multishot enabled to return a list of actors instead of just one projectile
 - stopgame() now clears all actors properly
+- added method to check if current level needs to show tutorial
 
 FighterPlane
 - HealthAtZero method removed, worked inline at takedamage function

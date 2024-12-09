@@ -20,8 +20,8 @@ public class GameOverImage extends ImageView {
 	 * Constructor for GameOverImage.
 	 * Initializes the Game Over image with its position on the screen.
 	 *
-	 * @param xPosition the X position of the Win image
-	 * @param yPosition the Y position of the Win image
+	 * @param xPosition the X position of the GameOver image
+	 * @param yPosition the Y position of the GameOver image
 	 */
 	public GameOverImage(double xPosition, double yPosition) {
 		this.setImage(new Image(Objects.requireNonNull(getClass().getResource(IMAGE_NAME)).toExternalForm()));

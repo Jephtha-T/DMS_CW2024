@@ -10,7 +10,7 @@ import com.example.demo.actors.Boss;
 public class LevelThree extends BaseLevel {
 
     private static final String BACKGROUND_IMAGE_NAME = Config.LEVEL_TWO_BACKGROUND;
-    private final Boss boss; // The boss enemy for this level
+    private static final Boss boss = new Boss(); // The boss enemy for this level
 
     /**
      * Constructor for LevelThree.
@@ -21,7 +21,6 @@ public class LevelThree extends BaseLevel {
      */
     public LevelThree(double screenHeight, double screenWidth) {
         super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth);
-        boss = new Boss();
     }
 
     /**
@@ -31,6 +30,15 @@ public class LevelThree extends BaseLevel {
     @Override
     protected void initializeFriendlyUnits() {
         getRoot().getChildren().add(getUser());
+    }
+
+    /**
+     * Gets the boss enemy for this level.
+     *
+     * @return the boss enemy
+     */
+    public static Boss getBoss() {
+        return boss;
     }
 
     /**
@@ -60,11 +68,11 @@ public class LevelThree extends BaseLevel {
 
     /**
      * Spawns items specific to the third level.
-     * This includes shield items.
+     * No items for Boss Fight
      */
     @Override
     protected void spawnItems() {
-        spawnShieldItem();
+        // No items for Boss Fight
     }
 
     /**

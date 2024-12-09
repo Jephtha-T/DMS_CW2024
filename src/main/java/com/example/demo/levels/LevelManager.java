@@ -16,6 +16,7 @@ public class LevelManager {
     private static LevelManager instance; // Singleton instance
     private final Stage stage; // The primary stage for displaying levels
     private LevelParent currentLevel; // The currently active level
+    private static String levelclassname;
 
     /**
      * Private constructor to prevent direct instantiation.
@@ -52,6 +53,22 @@ public class LevelManager {
     }
 
     /**
+     * Sets the current level class name.
+     *
+     * @param levelClassName the fully qualified class name of the level to set
+     */
+    private static void setCurrentLevelClassName(String levelClassName) {
+        levelclassname = levelClassName;
+    }
+
+    public static String getCurrentLevelName() {
+        if (levelclassname == null) {
+            throw new IllegalStateException("LevelManager has not been initialized.");
+        }
+        return levelclassname;
+    }
+
+    /**
      * Loads a level by its class name.
      * Stops the current level's game loop if a level is already loaded.
      * Uses reflection to dynamically load the level class.
@@ -63,9 +80,9 @@ public class LevelManager {
             if (currentLevel != null) {
                 currentLevel.stopGame(); // Stop the current level's game loop
             }
-
+            setCurrentLevelClassName(levelClassName);
             // Use reflection to dynamically load the level class
-            Class<?> clazz = Class.forName(levelClassName);
+            Class<?> clazz = Class.forName(levelclassname);
             Constructor<?> constructor = clazz.getConstructor(double.class, double.class);
             currentLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth());
 
@@ -85,7 +102,10 @@ public class LevelManager {
             stage.setWidth(stage.getWidth());
             stage.setHeight(stage.getHeight());
 
-            currentLevel.startGame();
+            // Start the game only if HelpImage is NOT shown
+            if (!currentLevel.shouldShowHelpImage()) {
+                currentLevel.startGame();
+            }
         } catch (Exception e) {
             Logger.getLogger(LevelManager.class.getName()).log(Level.SEVERE, e, () -> "Failed to load level: " + levelClassName);
         }

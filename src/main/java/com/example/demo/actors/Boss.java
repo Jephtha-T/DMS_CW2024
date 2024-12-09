@@ -93,6 +93,15 @@ public class Boss extends FighterPlane {
 	}
 
 	/**
+	 * Gets the current health of the boss.
+	 *
+	 * @return the current health of the boss
+	 */
+	public int getBossHealth() {
+		return getHealth();
+	}
+
+	/**
 	 * Initializes the move pattern for the boss.
 	 */
 	private void initializeMovePattern() {

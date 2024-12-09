@@ -23,28 +23,28 @@ import javafx.scene.input.KeyEvent;
  */
 public abstract class LevelParent {
 
-    private final MyObservable observable = new MyObservable();
-    private final double screenHeight;
-    private final double screenWidth;
-    private final double enemyMaximumYPosition;
-    private final Group mRoot;
-    private final GameLoop gameLoop;
-    private final UserPlane mUser;
-    private final Scene scene;
-    private final ImageView background;
-    private final CollisionManager collisionManager;
-    private final List<ActiveActorDestructible> friendlyUnits = new ArrayList<>();
-    private final List<ActiveActorDestructible> enemyUnits = new ArrayList<>();
-    private final List<ActiveActorDestructible> userProjectiles = new ArrayList<>();
-    private final List<ActiveActorDestructible> enemyProjectiles = new ArrayList<>();
-    private final List<ActiveActorDestructible> items = new ArrayList<>();
-    private int currentNumberOfEnemies;
-    private final LevelView levelView;
-    private boolean levelTransitionInProgress = false;
-    private final SoundManager soundManager;
+    private final MyObservable observable = new MyObservable(); // Observable for notifying observers
+    private final double screenHeight; // Height of the screen
+    private final double screenWidth; // Width of the screen
+    private final double enemyMaximumYPosition; // Maximum Y position for enemies
+    private final Group mRoot; // Root group for the level
+    private final GameLoop gameLoop; // Game loop for updating the scene
+    private final UserPlane mUser; // User's plane
+    private final Scene scene; // Scene for the level
+    private final ImageView background; // Background image for the level
+    private final CollisionManager collisionManager; // Manager for handling collisions
+    private final List<ActiveActorDestructible> friendlyUnits = new ArrayList<>(); // List of friendly units
+    private final List<ActiveActorDestructible> enemyUnits = new ArrayList<>(); // List of enemy units
+    private final List<ActiveActorDestructible> userProjectiles = new ArrayList<>(); // List of user projectiles
+    private final List<ActiveActorDestructible> enemyProjectiles = new ArrayList<>(); // List of enemy projectiles
+    private final List<ActiveActorDestructible> items = new ArrayList<>(); // List of items
+    private int currentNumberOfEnemies; // Current number of enemies
+    private final LevelView levelView; // View for the level
+    private boolean levelTransitionInProgress = false; // Flag for level transition
+    private final SoundManager soundManager; // Manager for handling sounds
     private boolean paused = false; // Tracks if the game is paused
-    private final PauseMenuManager pauseMenuManager;
-    private boolean gameActive = true;
+    private final PauseMenuManager pauseMenuManager; // Manager for the pause menu
+    private boolean gameActive = true; // Tracks if the game is active
 
     /**
      * Constructor for LevelParent.
@@ -136,7 +136,30 @@ public abstract class LevelParent {
         levelView.showHeartDisplay();
         levelView.showKillCount();
         mRoot.getChildren().add(UserPlane.shieldImage);
+
+        if (shouldShowHelpImage()) {
+            levelView.showHelpImage();
+            // Wait for Enter key to hide HelpImage and start the game
+            scene.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ENTER) {
+                    levelView.hideHelpImage();
+                    startGame(); // Start the game after HelpImage is dismissed
+
+                }
+            });
+        }
+
         return scene;
+    }
+
+    /**
+     * Determines whether the help screen should be shown at the start.
+     * By default, it is false. Specific levels can override this to true.
+     *
+     * @return true if HelpImage should be shown, false otherwise
+     */
+    protected boolean shouldShowHelpImage() {
+        return false; // Default behavior: do not show HelpImage
     }
 
     /**
@@ -238,7 +261,7 @@ public abstract class LevelParent {
      *
      * @param e the key event
      */
-    private void handleKeyPressed(KeyEvent e) {
+    void handleKeyPressed(KeyEvent e) {
         KeyCode kc = e.getCode();
         if (!gameActive && kc == KeyCode.ENTER) {
             LevelManager.getInstance().loadMainMenu();
