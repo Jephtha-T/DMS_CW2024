@@ -187,7 +187,7 @@ public abstract class LevelParent {
      * Updates the scene.
      * Spawns enemies and items, updates all actors, handles collisions, and refreshes the UI.
      */
-    private void updateScene() {
+    public void updateScene() {
         spawnEnemiesAndItems();
         updateAllActors();
 
@@ -497,7 +497,7 @@ public abstract class LevelParent {
      *
      * @return the current number of enemies
      */
-    protected int getCurrentNumberOfEnemies() {
+    public int getCurrentNumberOfEnemies() {
         return enemyUnits.size();
     }
 
@@ -506,7 +506,7 @@ public abstract class LevelParent {
      *
      * @return the current number of items
      */
-    protected int getCurrentNumberOfItems() {
+    public int getCurrentNumberOfItems() {
         return items.size();
     }
 

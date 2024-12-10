@@ -47,7 +47,7 @@ public final class Config {
     public static final double SCREEN_HEIGHT_ADJUSTMENT = 50.0;
 
     /** The upper bound for Y-axis movement */
-    public static final double Y_UPPER_BOUND = -40;
+    public static final double Y_UPPER_BOUND = 0;
 
     /** The lower bound for Y-axis movement */
     public static final double Y_LOWER_BOUND = 700.0;
@@ -292,10 +292,10 @@ public final class Config {
     public static final String LEVEL_TWO_BACKGROUND = IMAGE_PATH_PREFIX + "background2.png";
 
     /** Total number of enemies to spawn in each level */
-    public static final int TOTAL_ENEMIES = 5;
+    public static final int TOTAL_ENEMIES = 10;
 
     /** Total number of items to spawn in each level */
-    public static final int TOTAL_ITEMS = 2;
+    public static final int TOTAL_ITEMS = 5;
 
     /** Number of kills required to advance from Level One */
     public static final int KILLS_TO_ADVANCE_LEVELONE = 10;

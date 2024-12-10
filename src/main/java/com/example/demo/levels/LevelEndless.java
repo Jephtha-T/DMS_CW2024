@@ -32,7 +32,7 @@ public class LevelEndless extends BaseLevel {
      * This includes enemy planes, bomber planes, and charge planes.
      */
     @Override
-    protected void spawnEnemyUnits() {
+    public void spawnEnemyUnits() {
         spawnEnemyPlane();
         spawnBomberPlane();
         spawnChargePlane();
@@ -43,7 +43,7 @@ public class LevelEndless extends BaseLevel {
      * This includes shield items, multi-shot items, and health items.
      */
     @Override
-    protected void spawnItems() {
+    public void spawnItems() {
         spawnShieldItem();
         spawnMultiShotItem();
         spawnHealthItem();
