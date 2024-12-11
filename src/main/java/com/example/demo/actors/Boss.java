@@ -1,7 +1,6 @@
 package com.example.demo.actors;
 
 import com.example.demo.Config;
-import com.example.demo.imagedisplay.ShieldImage;
 
 import java.util.*;
 
@@ -30,7 +29,7 @@ public class Boss extends FighterPlane {
 	private int consecutiveMovesInSameDirection;
 	private int indexOfCurrentMove;
 	private int framesWithShieldActivated;
-	private final ShieldImage shieldImage;
+	private final ShieldEffect shieldEffect;
 
 	/**
 	 * Constructor for Boss.
@@ -44,7 +43,7 @@ public class Boss extends FighterPlane {
 		framesWithShieldActivated = 0;
 		isShielded = false;
 		initializeMovePattern();
-		shieldImage = new ShieldImage(INITIAL_X_POSITION, INITIAL_Y_POSITION, IMAGE_HEIGHT);
+		shieldEffect = new ShieldEffect(INITIAL_X_POSITION, INITIAL_Y_POSITION, IMAGE_HEIGHT);
 	}
 
 	/**
@@ -56,7 +55,7 @@ public class Boss extends FighterPlane {
 		moveVertically(getNextMove());
 		double currentPosition = getLayoutY() + getTranslateY();
 
-		shieldImage.setLayoutY(currentPosition);
+		shieldEffect.setLayoutY(currentPosition);
 
 		if (currentPosition < Y_POSITION_UPPER_BOUND || currentPosition > Y_POSITION_LOWER_BOUND) {
 			setTranslateY(initialTranslateY);
@@ -169,7 +168,7 @@ public class Boss extends FighterPlane {
 	 */
     protected void activateShield() {
 		isShielded = true;
-		shieldImage.activateShield();
+		shieldEffect.activateShield();
 	}
 
 	/**
@@ -178,7 +177,7 @@ public class Boss extends FighterPlane {
     protected void deactivateShield() {
 		isShielded = false;
 		framesWithShieldActivated = 0;
-		shieldImage.deactivateShield();
+		shieldEffect.deactivateShield();
 	}
 
 	/**
@@ -186,7 +185,7 @@ public class Boss extends FighterPlane {
 	 *
 	 * @return the shield image
 	 */
-	public ShieldImage getShieldImage() {
-		return shieldImage;
+	public ShieldEffect getShieldImage() {
+		return shieldEffect;
 	}
 }

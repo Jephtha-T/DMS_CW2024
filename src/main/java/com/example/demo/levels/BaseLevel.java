@@ -16,8 +16,8 @@ public abstract class BaseLevel extends LevelParent {
      * Constructor for BaseLevel.
      *
      * @param backgroundImageName the name of the background image for the level
-     * @param screenHeight the height of the screen
-     * @param screenWidth the width of the screen
+     * @param screenHeight        the height of the screen
+     * @param screenWidth         the width of the screen
      */
     protected BaseLevel(String backgroundImageName, double screenHeight, double screenWidth) {
         super(backgroundImageName, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
@@ -137,11 +137,20 @@ public abstract class BaseLevel extends LevelParent {
      * Spawns enemies and items if the current number is less than the configured total.
      */
     protected void spawnEnemiesAndItems() {
-        if(getCurrentNumberOfEnemies() < Config.TOTAL_ENEMIES) {
+        // Generate a random number between 0 and 1
+        double spawnChance = new java.security.SecureRandom().nextDouble();
+
+        // Check threshold and spawn enemies/items accordingly
+        if (getCurrentNumberOfEnemies() < Config.TOTAL_ENEMIES && spawnChance > 0.9) { // Threshold for enemies
             spawnEnemyUnits();
         }
-        if(getCurrentNumberOfItems() < Config.TOTAL_ITEMS) {
+
+        if (getCurrentNumberOfItems() < Config.TOTAL_ITEMS && spawnChance > 0.95) { // Threshold for items
             spawnItems();
         }
     }
+
+    protected abstract void spawnEnemyUnits();
+
+    protected abstract void spawnItems();
 }

@@ -135,7 +135,7 @@ public abstract class LevelParent {
         initializeFriendlyUnits();
         levelView.showHeartDisplay();
         levelView.showKillCount();
-        mRoot.getChildren().add(UserPlane.shieldImage);
+        mRoot.getChildren().add(UserPlane.SHIELD_EFFECT);
 
         if (shouldShowHelpImage()) {
             levelView.showHelpImage();

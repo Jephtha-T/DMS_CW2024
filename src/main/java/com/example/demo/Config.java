@@ -224,7 +224,7 @@ public final class Config {
     public static final String BOSS_IMAGE_NAME = "bossplane.png";
 
     /** Initial health of the boss plane */
-    public static final int BOSS_INITIAL_HEALTH = 100;
+    public static final int BOSS_INITIAL_HEALTH = 50;
 
     /** Vertical velocity of the boss plane */
     public static final int BOSS_VERTICAL_VELOCITY = 8;
@@ -301,7 +301,7 @@ public final class Config {
     public static final int KILLS_TO_ADVANCE_LEVELONE = 10;
 
     /** Number of kills required to advance from Level Two */
-    public static final int KILLS_TO_ADVANCE_LEVELTWO = 10;
+    public static final int KILLS_TO_ADVANCE_LEVELTWO = 20;
 
     // UI Constants
     /** Height of the heart icon displayed in the UI */

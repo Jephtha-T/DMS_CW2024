@@ -2,7 +2,6 @@ package com.example.demo.actors;
 
 import com.example.demo.Config;
 import com.example.demo.imagedisplay.HeartDisplay;
-import com.example.demo.imagedisplay.ShieldImage;
 import com.example.demo.levels.LevelView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -34,7 +33,7 @@ public class UserPlane extends FighterPlane {
 	private boolean isShielded;
 	private int numberOfKills;
 	private int framesWithShieldActivated;
-	public static final ShieldImage shieldImage = new ShieldImage(INITIAL_X_POSITION, INITIAL_Y_POSITION, IMAGE_HEIGHT);
+	public static final ShieldEffect SHIELD_EFFECT = new ShieldEffect(INITIAL_X_POSITION, INITIAL_Y_POSITION, IMAGE_HEIGHT);
 	private boolean multiShotEnabled = false;
 	private long lastFireTime = 0; // Track the last time the user fired a projectile
 	private static final long FIRE_COOLDOWN = Config.FIRE_COOLDOWN;
@@ -61,8 +60,8 @@ public class UserPlane extends FighterPlane {
 		double initialTranslateY = getTranslateY();
 		this.moveVertically(VERTICAL_VELOCITY * velocityMultiplier);
 		double newPosition = getLayoutY() + getTranslateY();
-		shieldImage.setTranslateX(getTranslateX() - SHIELD_X_OFFSET); // Adjust X if necessary
-		shieldImage.setTranslateY(getTranslateY() - SHIELD_Y_OFFSET); // Adjust Y if necessary
+		SHIELD_EFFECT.setTranslateX(getTranslateX() - SHIELD_X_OFFSET); // Adjust X if necessary
+		SHIELD_EFFECT.setTranslateY(getTranslateY() - SHIELD_Y_OFFSET); // Adjust Y if necessary
 		if (newPosition < Y_UPPER_BOUND || newPosition > Y_LOWER_BOUND) {
 			this.setTranslateY(initialTranslateY);
 		}
@@ -175,10 +174,10 @@ public class UserPlane extends FighterPlane {
 	 */
 	protected void activateShield() {
 		isShielded = true;
-		shieldImage.activateShield();  // Activate the shield image
-		shieldImage.setTranslateX(getTranslateX() - SHIELD_X_OFFSET); // Adjust position relative to the plane
-		shieldImage.setTranslateY(getTranslateY() - SHIELD_Y_OFFSET);
-		shieldImage.setVisible(true);
+		SHIELD_EFFECT.activateShield();  // Activate the shield image
+		SHIELD_EFFECT.setTranslateX(getTranslateX() - SHIELD_X_OFFSET); // Adjust position relative to the plane
+		SHIELD_EFFECT.setTranslateY(getTranslateY() - SHIELD_Y_OFFSET);
+		SHIELD_EFFECT.setVisible(true);
 	}
 
 	/**
@@ -188,8 +187,8 @@ public class UserPlane extends FighterPlane {
 	public void deactivateShield() {
 		isShielded = false;
 		framesWithShieldActivated = 0;
-		shieldImage.deactivateShield();  // Deactivate the shield image
-		shieldImage.setVisible(false);
+		SHIELD_EFFECT.deactivateShield();  // Deactivate the shield image
+		SHIELD_EFFECT.setVisible(false);
 	}
 
 	/**

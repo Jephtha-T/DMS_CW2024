@@ -29,8 +29,13 @@ public class LevelTwo extends BaseLevel {
      */
     @Override
     protected void spawnEnemyUnits() {
-        spawnEnemyPlane();
-        spawnBomberPlane();
+        double chance = new java.security.SecureRandom().nextDouble();
+
+        if (chance < 0.6) { // 60% chance to spawn an enemy plane
+            spawnEnemyPlane();
+        } else { // 40% chance to spawn a bomber plane
+            spawnBomberPlane();
+        }
     }
 
     /**
@@ -39,8 +44,13 @@ public class LevelTwo extends BaseLevel {
      */
     @Override
     protected void spawnItems() {
-        spawnShieldItem();
-        spawnMultiShotItem();
+        double chance = new java.security.SecureRandom().nextDouble();
+
+        if (chance < 0.5) { // 50% chance for a shield item
+            spawnShieldItem();
+        } else { // 50% chance for a multi-shot item
+            spawnMultiShotItem();
+        }
     }
 
     /**

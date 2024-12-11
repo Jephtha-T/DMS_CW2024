@@ -32,10 +32,16 @@ public class LevelEndless extends BaseLevel {
      * This includes enemy planes, bomber planes, and charge planes.
      */
     @Override
-    public void spawnEnemyUnits() {
-        spawnEnemyPlane();
-        spawnBomberPlane();
-        spawnChargePlane();
+    protected void spawnEnemyUnits() {
+        double chance = new java.security.SecureRandom().nextDouble();
+
+        if (chance < 0.4) { // 40% chance to spawn an enemy plane
+            spawnEnemyPlane();
+        } else if (chance < 0.7) { // 30% chance to spawn a bomber plane
+            spawnBomberPlane();
+        } else { // 30% chance to spawn a charge plane
+            spawnChargePlane();
+        }
     }
 
     /**
@@ -43,10 +49,16 @@ public class LevelEndless extends BaseLevel {
      * This includes shield items, multi-shot items, and health items.
      */
     @Override
-    public void spawnItems() {
-        spawnShieldItem();
-        spawnMultiShotItem();
-        spawnHealthItem();
+    protected void spawnItems() {
+        double chance = new java.security.SecureRandom().nextDouble();
+
+        if (chance < 0.5) { // 50% chance for a shield item
+            spawnShieldItem();
+        } else if (chance < 0.8) { // 30% chance for a multi-shot item
+            spawnMultiShotItem();
+        } else { // 20% chance for a health item
+            spawnHealthItem();
+        }
     }
 
     /**

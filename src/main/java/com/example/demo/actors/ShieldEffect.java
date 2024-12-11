@@ -1,13 +1,12 @@
-package com.example.demo.imagedisplay;
+package com.example.demo.actors;
 
-import com.example.demo.actors.ActiveActor;
 import com.example.demo.Config;
 
 /**
  * Class representing the Shield image displayed in the game.
  * Extends the ActiveActor class.
  */
-public class ShieldImage extends ActiveActor {
+public class ShieldEffect extends ActiveActor {
 
 	private static final String IMAGE_NAME = Config.SHIELD_EFFECT;
 
@@ -19,7 +18,7 @@ public class ShieldImage extends ActiveActor {
 	 * @param yPosition the Y position of the Shield image
 	 * @param size the size of the Shield image
 	 */
-	public ShieldImage(double xPosition, double yPosition, int size) {
+	public ShieldEffect(double xPosition, double yPosition, int size) {
 		super(IMAGE_NAME, size, xPosition, yPosition);
 		this.setVisible(false);
 		this.setFitHeight(size);
