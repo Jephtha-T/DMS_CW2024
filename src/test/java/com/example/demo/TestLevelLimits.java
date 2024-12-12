@@ -9,8 +9,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for verifying the limits of enemies and items in the LevelEndless class.
+ */
 public class TestLevelLimits {
 
+    /**
+     * Initializes JavaFX and LevelManager with a mock stage before all tests.
+     */
     @BeforeAll
     public static void initJavaFX() {
         // Initialize JavaFX and LevelManager with a mock stage
@@ -21,6 +27,10 @@ public class TestLevelLimits {
         });
     }
 
+    /**
+     * Tests the maximum limit of enemies in the LevelEndless class.
+     * Ensures that the number of enemies does not exceed the specified limit.
+     */
     @Test
     void testMaxEnemyLimit() {
         // Ensure JavaFX thread initializes properly
@@ -35,6 +45,10 @@ public class TestLevelLimits {
         });
     }
 
+    /**
+     * Tests the maximum limit of items in the LevelEndless class.
+     * Ensures that the number of items does not exceed the specified limit.
+     */
     @Test
     void testMaxItemLimit() {
         // Ensure JavaFX thread initializes properly

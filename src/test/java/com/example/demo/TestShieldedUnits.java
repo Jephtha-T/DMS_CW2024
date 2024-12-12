@@ -9,13 +9,23 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for verifying the behavior of shielded units in the game.
+ */
 public class TestShieldedUnits {
 
+    /**
+     * Initializes JavaFX before all tests.
+     */
     @BeforeAll
     public static void initJavaFX() {
         Platform.startup(() -> {});
     }
 
+    /**
+     * Tests that the shield on the UserPlane prevents damage.
+     * Ensures that the health of the UserPlane remains the same after taking damage when the shield is active.
+     */
     @Test
     void testShieldPreventsDamage() {
         UserPlane plane = new UserPlane(3);
@@ -27,6 +37,10 @@ public class TestShieldedUnits {
         assertEquals(healthBefore, plane.getHealth(), "Shield should prevent damage!");
     }
 
+    /**
+     * Tests that the shield on the Boss prevents damage.
+     * Ensures that the health of the Boss remains the same after taking damage when the shield is active.
+     */
     @Test
     void testBossShieldPreventsDamage() {
         Boss boss = new Boss();
@@ -41,7 +55,10 @@ public class TestShieldedUnits {
         assertEquals(healthBefore, boss.getBossHealth(), "Boss shield should prevent damage!");
     }
 
-
+    /**
+     * Tests that the Boss takes damage when the shield is not active.
+     * Ensures that the health of the Boss decreases after taking damage when the shield is not active.
+     */
     @Test
     void testBossTakesDamageWithoutShield() {
         Boss boss = new Boss();

@@ -47,7 +47,6 @@ public abstract class LevelParent {
     private boolean gameActive = true; // Tracks if the game is active
     protected boolean shouldshowhelp = false;
 
-
     /**
      * Constructor for LevelParent.
      * Initializes the level with the specified background image, screen dimensions, and player initial health.
@@ -144,8 +143,6 @@ public abstract class LevelParent {
     /**
      * Determines whether the help screen should be shown at the start.
      * By default, it is false. Specific levels can override this to true.
-     *
-     * @return true if HelpImage should be shown, false otherwise
      */
     protected void shouldShowHelpImage() {
         shouldshowhelp = true; // Default behavior: do not show HelpImage
@@ -158,20 +155,19 @@ public abstract class LevelParent {
     public void startGame() {
         if (shouldshowhelp) {
             levelView.showHelpImage();
-                scene.setOnKeyPressed(event -> {
-                    levelView.hideHelpImage();
-                    shouldshowhelp = false;
-                    // Remove this key listener
-                    scene.setOnKeyPressed(null);
-                    gameActive = true; // Enable input
-                    resetUserState();
-                    background.requestFocus();
-                    gameLoop.start();
-                    soundManager.playSoundEffect("levelStart");
-                    soundManager.playBackgroundMusic(Config.BG_MUSIC_AUDIO);
-                });
-        }
-        else {
+            scene.setOnKeyPressed(event -> {
+                levelView.hideHelpImage();
+                shouldshowhelp = false;
+                // Remove this key listener
+                scene.setOnKeyPressed(null);
+                gameActive = true; // Enable input
+                resetUserState();
+                background.requestFocus();
+                gameLoop.start();
+                soundManager.playSoundEffect("levelStart");
+                soundManager.playBackgroundMusic(Config.BG_MUSIC_AUDIO);
+            });
+        } else {
             gameActive = true; // Enable input
             resetUserState();
             background.requestFocus();

@@ -3,6 +3,7 @@ module com.example.demo {
     requires javafx.fxml;
     requires java.logging;
     requires javafx.media;
+    requires org.junit.jupiter.api;
 
 
     opens com.example.demo to javafx.fxml;

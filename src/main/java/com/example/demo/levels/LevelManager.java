@@ -1,5 +1,7 @@
 package com.example.demo.levels;
 
+import com.example.demo.Config;
+import com.example.demo.controller.MainMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,6 +19,10 @@ public class LevelManager {
     private final Stage stage; // The primary stage for displaying levels
     private LevelParent currentLevel; // The currently active level
     private static String levelclassname;
+    private static final int SCREEN_WIDTH = Config.SCREEN_WIDTH;
+    private static final int SCREEN_HEIGHT = Config.SCREEN_HEIGHT;
+    private static final String MAIN_MENU_FXML = Config.MAIN_MENU_FXML;
+    private static final String TITLE = Config.TITLE;
 
     /**
      * Private constructor to prevent direct instantiation.
@@ -61,6 +67,12 @@ public class LevelManager {
         levelclassname = levelClassName;
     }
 
+    /**
+     * Gets the current level class name.
+     *
+     * @return the current level class name
+     * @throws IllegalStateException if the LevelManager has not been initialized
+     */
     public static String getCurrentLevelName() {
         if (levelclassname == null) {
             throw new IllegalStateException("LevelManager has not been initialized.");
@@ -102,7 +114,7 @@ public class LevelManager {
             stage.setWidth(stage.getWidth());
             stage.setHeight(stage.getHeight());
 
-                currentLevel.startGame();
+            currentLevel.startGame();
         } catch (Exception e) {
             Logger.getLogger(LevelManager.class.getName()).log(Level.SEVERE, e, () -> "Failed to load level: " + levelClassName);
         }
@@ -114,11 +126,13 @@ public class LevelManager {
      */
     public void loadMainMenu() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/MainMenu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_MENU_FXML));
             Parent root = loader.load();
-
-            Scene mainMenuScene = new Scene(root);
+            MainMenuController.initialize(stage);
+            Scene mainMenuScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
             stage.setScene(mainMenuScene);
+            stage.setTitle(TITLE);
+            stage.setResizable(false);
         } catch (Exception e) {
             Logger.getLogger(LevelManager.class.getName()).log(Level.SEVERE, "Failed to load main menu", e);
         }
