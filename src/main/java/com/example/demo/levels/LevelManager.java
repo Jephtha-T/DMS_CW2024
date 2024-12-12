@@ -102,10 +102,7 @@ public class LevelManager {
             stage.setWidth(stage.getWidth());
             stage.setHeight(stage.getHeight());
 
-            // Start the game only if HelpImage is NOT shown
-            if (!currentLevel.shouldShowHelpImage()) {
                 currentLevel.startGame();
-            }
         } catch (Exception e) {
             Logger.getLogger(LevelManager.class.getName()).log(Level.SEVERE, e, () -> "Failed to load level: " + levelClassName);
         }

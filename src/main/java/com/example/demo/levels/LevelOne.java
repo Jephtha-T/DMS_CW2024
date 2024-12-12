@@ -21,12 +21,9 @@ public class LevelOne extends BaseLevel {
      */
     public LevelOne(double screenHeight, double screenWidth) {
         super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth);
+        shouldShowHelpImage();
     }
 
-    @Override
-    protected boolean shouldShowHelpImage() {
-        return true; // Show HelpImage for LevelOne
-    }
 
     /**
      * Spawns enemy units specific to the first level.

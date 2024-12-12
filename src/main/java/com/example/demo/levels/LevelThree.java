@@ -23,6 +23,13 @@ public class LevelThree extends BaseLevel {
         super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth);
     }
 
+    @Override
+    public void startGame() {
+        boss.resetState(); // Reset Boss state before starting the level
+        super.startGame();
+    }
+
+
     /**
      * Initializes friendly units for the level.
      * Adds the user plane to the root group.

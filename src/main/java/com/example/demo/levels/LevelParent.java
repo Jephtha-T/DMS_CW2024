@@ -45,6 +45,8 @@ public abstract class LevelParent {
     private boolean paused = false; // Tracks if the game is paused
     private final PauseMenuManager pauseMenuManager; // Manager for the pause menu
     private boolean gameActive = true; // Tracks if the game is active
+    protected boolean shouldshowhelp = false;
+
 
     /**
      * Constructor for LevelParent.
@@ -63,7 +65,7 @@ public abstract class LevelParent {
         this.background = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(backgroundImageName)).toExternalForm()));
         this.screenHeight = screenHeight;
         this.screenWidth = screenWidth;
-        this.enemyMaximumYPosition = screenHeight - Config.SCREEN_HEIGHT_ADJUSTMENT;
+        this.enemyMaximumYPosition = Config.Y_LOWER_BOUND;
         this.currentNumberOfEnemies = 0;
         this.pauseMenuManager = new PauseMenuManager(mRoot, this);
         this.collisionManager = new CollisionManager(mRoot, mUser);
@@ -136,19 +138,6 @@ public abstract class LevelParent {
         levelView.showHeartDisplay();
         levelView.showKillCount();
         mRoot.getChildren().add(UserPlane.SHIELD_EFFECT);
-
-        if (shouldShowHelpImage()) {
-            levelView.showHelpImage();
-            // Wait for Enter key to hide HelpImage and start the game
-            scene.setOnKeyPressed(event -> {
-                if (event.getCode() == KeyCode.ENTER) {
-                    levelView.hideHelpImage();
-                    startGame(); // Start the game after HelpImage is dismissed
-
-                }
-            });
-        }
-
         return scene;
     }
 
@@ -158,8 +147,8 @@ public abstract class LevelParent {
      *
      * @return true if HelpImage should be shown, false otherwise
      */
-    protected boolean shouldShowHelpImage() {
-        return false; // Default behavior: do not show HelpImage
+    protected void shouldShowHelpImage() {
+        shouldshowhelp = true; // Default behavior: do not show HelpImage
     }
 
     /**
@@ -167,12 +156,29 @@ public abstract class LevelParent {
      * Enables input, resets the user state, and starts the game loop.
      */
     public void startGame() {
-        gameActive = true; // Enable input
-        resetUserState();
-        background.requestFocus();
-        gameLoop.start();
-        soundManager.playSoundEffect("levelStart");
-        soundManager.playBackgroundMusic(Config.BG_MUSIC_AUDIO);
+        if (shouldshowhelp) {
+            levelView.showHelpImage();
+                scene.setOnKeyPressed(event -> {
+                    levelView.hideHelpImage();
+                    shouldshowhelp = false;
+                    // Remove this key listener
+                    scene.setOnKeyPressed(null);
+                    gameActive = true; // Enable input
+                    resetUserState();
+                    background.requestFocus();
+                    gameLoop.start();
+                    soundManager.playSoundEffect("levelStart");
+                    soundManager.playBackgroundMusic(Config.BG_MUSIC_AUDIO);
+                });
+        }
+        else {
+            gameActive = true; // Enable input
+            resetUserState();
+            background.requestFocus();
+            gameLoop.start();
+            soundManager.playSoundEffect("levelStart");
+            soundManager.playBackgroundMusic(Config.BG_MUSIC_AUDIO);
+        }
     }
 
     /**

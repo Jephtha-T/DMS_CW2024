@@ -19,12 +19,10 @@ public class LevelEndless extends BaseLevel {
      */
     public LevelEndless(double screenHeight, double screenWidth) {
         super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth);
+        shouldShowHelpImage();
     }
 
-    @Override
-    protected boolean shouldShowHelpImage() {
-        return true; // Show HelpImage for LevelOne
-    }
+
 
 
     /**

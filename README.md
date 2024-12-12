@@ -277,6 +277,7 @@ All other assets are made using Aseprite & Project files in WiP Folder
 - shieldShouldBeActivated & shieldExhausted removed and instead integrated directly into updateShield with a new else if loop system
 - updatePosition() added line to update shield position as well
 - Activate and Deactivate Shield now calls show and hide shield properly
+- Added method to reset health and shield for when level is restarted
 
 **HeartDisplay**
 - Added method to remove hearts
