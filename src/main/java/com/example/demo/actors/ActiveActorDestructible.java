@@ -6,7 +6,7 @@ package com.example.demo.actors;
  */
 public abstract class ActiveActorDestructible extends ActiveActor {
 
-	private boolean isDestroyed;
+	protected boolean isDestroyed;
 
 	/**
 	 * Constructor for ActiveActorDestructible.

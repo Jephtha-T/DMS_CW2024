@@ -93,12 +93,23 @@ public class Boss extends FighterPlane {
 
 	/**
 	 * Resets the state of the boss.
-	 * This method resets the boss's health to its initial value and deactivates the shield.
+	 * Resets health, position, destruction status, shield, and move pattern.
 	 */
 	public void resetState() {
 		this.health = Config.BOSS_INITIAL_HEALTH; // Reset health to initial value
 		deactivateShield();                       // Reset shield state
+		setLayoutX(INITIAL_X_POSITION);           // Reset X position
+		setLayoutY(INITIAL_Y_POSITION);           // Reset Y position
+		setTranslateX(0);                         // Clear translations
+		setTranslateY(0);
+		isDestroyed = false;                      // Reset destroyed state
+		consecutiveMovesInSameDirection = 0;      // Reset move counters
+		indexOfCurrentMove = 0;
+		framesWithShieldActivated = 0;
+		movePattern.clear();                      // Reset move pattern
+		initializeMovePattern();                  // Reinitialize moves
 	}
+
 
 
 
