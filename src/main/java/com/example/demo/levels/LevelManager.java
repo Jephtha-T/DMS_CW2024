@@ -128,7 +128,6 @@ public class LevelManager {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_MENU_FXML));
             Parent root = loader.load();
-            MainMenuController.initialize(stage);
             Scene mainMenuScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
             stage.setScene(mainMenuScene);
             stage.setTitle(TITLE);
